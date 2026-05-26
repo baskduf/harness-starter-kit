@@ -1,0 +1,137 @@
+# harness-starter-kit
+
+[English](README.md) | [한국어](README.ko.md) | **日本語** | [简体中文](README.zh-CN.md)
+
+`harness-starter-kit` は、あらゆるソフトウェアプロジェクトに harness
+engineering を適用するためのスターターキットです。
+
+想定しているワークフローはシンプルです。
+
+```text
+harness-starter-kit を対象プロジェクトの隣にクローンします。
+エージェントに次のように依頼します:
+"harness-starter-kit を読んで、このリポジトリに harness engineering の
+ガイドラインを適用してください。既存のアーキテクチャを保ち、不足している
+最小限の harness ファイルだけを追加してください。"
+```
+
+対象プロジェクトには、実用的なエージェント harness が残るべきです。
+
+- 永続的なエージェント指示のための `AGENTS.md`
+- lint、type check、import boundary、プロジェクト固有ルールによる
+  アーキテクチャ制約
+- test、CI、pre-commit hook、明確な失敗メッセージによるフィードバックループ
+- decision、failure、convention、domain context を保存する `docs/` ナレッジストア
+- code、document、structure drift を検出する garbage-collection check
+
+## なぜ必要か
+
+プロンプトは一時的です。コンテキストはセッションに閉じています。harness は
+プロジェクトに残ります。
+
+よい harness engineering は、繰り返し使う指示をチャットからリポジトリへ
+移します。そうすることで、エージェントは安定したルールの中で作業できます。
+エージェントがミスをしたとき、長期的な解決策は出力だけを直すことでは
+ありません。同じミスが次に起きにくくなるように、ルール、テスト、文書、
+自動チェックを追加することです。
+
+## クイックスタート
+
+このリポジトリを対象プロジェクトの隣にクローンまたはダウンロードします。
+
+```text
+workspace/
+|-- harness-starter-kit/
+`-- target-repo/
+```
+
+次に、対象リポジトリをコーディングエージェントで開き、このプロンプトを渡します。
+
+```text
+Read ../harness-starter-kit first. Apply the harness engineering starter kit to this
+repository.
+
+Preserve existing architecture, tools, and conventions. Add only the minimum
+missing harness files. Finish with a short adoption report.
+```
+
+インストーラーを手動で実行したい場合は、まず生成されるファイルを確認します。
+
+```powershell
+python scripts/apply_harness.py --target C:\path\to\target-repo --profile generic --dry-run
+```
+
+このスクリプトは、`--force` を指定しない限り既存ファイルを上書きしません。
+
+## エージェント主導の導入
+
+新規または既存のプロジェクトで、コーディングエージェントに次のプロンプトを
+渡してください。
+
+```text
+Read ../harness-starter-kit first. Apply the harness engineering starter kit to this
+repository.
+
+Requirements:
+- Preserve existing architecture, tools, and conventions.
+- Add or update AGENTS.md with project-specific rules.
+- Add docs/decisions, docs/failures, docs/conventions, and docs/domain if they
+  are missing.
+- Add drift checks under scripts/ and wire them into the closest existing
+  verification path.
+- Prefer existing linters, tests, CI, and package managers over introducing new
+  ones.
+- Do not overwrite existing files without explaining why.
+- Finish with a short report listing files changed, checks added, and remaining
+  manual integration steps.
+```
+
+長い版は
+[`docs/prompts/apply-to-target-repo.md`](docs/prompts/apply-to-target-repo.md) に
+あります。
+
+## リポジトリ構成
+
+```text
+harness-starter-kit/
+|-- AGENTS.md
+|-- docs/
+|   |-- adoption-workflow.md
+|   |-- component-map.md
+|   |-- overview.md
+|   |-- checklists/
+|   `-- prompts/
+|-- scripts/
+|   `-- apply_harness.py
+`-- templates/
+    |-- generic/
+    `-- profiles/
+```
+
+## 導入モード
+
+`generic` はどのプロジェクトにも使えます。特定の言語やフレームワークを
+仮定せず、durable harness skeleton を導入します。
+
+`python` は対象プロジェクトが Python を使っている場合に選びます。Ruff、
+mypy、vulture、pre-commit 向けの Python 用リファレンススニペットを追加します。
+
+`typescript` は対象プロジェクトが JavaScript または TypeScript を使っている
+場合に選びます。ESLint、dependency boundary、unused export check、package
+script 向けのリファレンススニペットを追加します。
+
+プロファイルは意図的に保守的です。既存のビルドシステムを書き換えるのではなく、
+スニペットとガイドを提供します。
+
+## 基本原則
+
+繰り返し起きるエージェントの失敗は、少なくとも一つの durable artifact に
+変換するべきです。
+
+- `AGENTS.md` のより明確な指示
+- 自動化された制約
+- test または CI check
+- decision または failure record
+- drift check
+
+これが harness engineering の中心です。

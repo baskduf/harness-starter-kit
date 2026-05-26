@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A DOS-inspired scrolltelling homepage for harness-starter-kit."
+    />
+    <title>harness-starter-kit</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <div class="crt-overlay" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="harness-starter-kit home">
+        <span>HARNES STARTER KIT</span>
+      </a>
+      <nav class="language-switcher" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ko" aria-pressed="false">KO</button>
+        <button type="button" data-lang="ja" aria-pressed="false">JA</button>
+        <button type="button" data-lang="zh-CN" aria-pressed="false">ZH</button>
+      </nav>
+    </header>
+
+    <main id="content">
+      <section class="hero" id="top" data-scene="boot">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="hero.eyebrow"></p>
+          <h1 data-i18n-type="hero.title"></h1>
+          <p class="hero-lede" data-i18n="hero.lede"></p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="button button-primary" href="#quick-start" data-i18n="hero.primaryCta"></a>
+            <a class="button button-secondary" href="#story" data-i18n="hero.secondaryCta"></a>
+          </div>
+        </div>
+
+        <div class="boot-window terminal-window" aria-label="Boot terminal">
+          <div class="window-bar">
+            <span>HARNESS.EXE</span>
+            <span class="window-controls">[_] [=] [X]</span>
+          </div>
+          <pre class="boot-log" aria-hidden="true"><code>BOOTING HARNESS STARTER KIT...
+MEMORY CHECK............... OK
+LOADING RULES.............. OK
+LOADING FEEDBACK LOOPS..... OK
+DRIFT SENSOR............... READY
+C:\HKS&gt; <span id="hero-command"></span><span class="cursor">_</span></code></pre>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true">
+          <span data-i18n="hero.scrollCue"></span>
+          <span class="scroll-cue-line"></span>
+        </div>
+      </section>
+
+      <section class="story" id="story" aria-label="Scroll story">
+        <div class="terminal-stage terminal-window" aria-live="polite">
+          <div class="window-bar">
+            <span id="stage-title">SESSION.LOG</span>
+            <span class="window-controls">F1 HELP</span>
+          </div>
+          <pre id="terminal-output"><code></code></pre>
+        </div>
+
+        <div class="chapters">
+          <article class="chapter is-active" data-chapter="problem">
+            <p class="eyebrow" data-i18n="chapters.problem.eyebrow"></p>
+            <h2 data-i18n="chapters.problem.title"></h2>
+            <p data-i18n="chapters.problem.body"></p>
+          </article>
+
+          <article class="chapter" data-chapter="solution">
+            <p class="eyebrow" data-i18n="chapters.solution.eyebrow"></p>
+            <h2 data-i18n="chapters.solution.title"></h2>
+            <p data-i18n="chapters.solution.body"></p>
+          </article>
+
+          <article class="chapter" data-chapter="components">
+            <p class="eyebrow" data-i18n="chapters.components.eyebrow"></p>
+            <h2 data-i18n="chapters.components.title"></h2>
+            <p data-i18n="chapters.components.body"></p>
+          </article>
+
+          <article class="chapter" data-chapter="adoption">
+            <p class="eyebrow" data-i18n="chapters.adoption.eyebrow"></p>
+            <h2 data-i18n="chapters.adoption.title"></h2>
+            <p data-i18n="chapters.adoption.body"></p>
+          </article>
+
+          <article class="chapter" data-chapter="quickStart">
+            <p class="eyebrow" data-i18n="chapters.quickStart.eyebrow"></p>
+            <h2 data-i18n="chapters.quickStart.title"></h2>
+            <p data-i18n="chapters.quickStart.body"></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="component-grid" id="components" aria-labelledby="components-title">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="components.eyebrow"></p>
+          <h2 id="components-title" data-i18n="components.title"></h2>
+        </div>
+        <div class="grid">
+          <article class="component-item">
+            <span class="item-code">01</span>
+            <h3 data-i18n="components.instructions.title"></h3>
+            <p data-i18n="components.instructions.body"></p>
+          </article>
+          <article class="component-item">
+            <span class="item-code">02</span>
+            <h3 data-i18n="components.constraints.title"></h3>
+            <p data-i18n="components.constraints.body"></p>
+          </article>
+          <article class="component-item">
+            <span class="item-code">03</span>
+            <h3 data-i18n="components.feedback.title"></h3>
+            <p data-i18n="components.feedback.body"></p>
+          </article>
+          <article class="component-item">
+            <span class="item-code">04</span>
+            <h3 data-i18n="components.knowledge.title"></h3>
+            <p data-i18n="components.knowledge.body"></p>
+          </article>
+        </div>
+      </section>
+
+      <section class="quick-start" id="quick-start" aria-labelledby="quick-title">
+        <div class="quick-copy">
+          <p class="eyebrow" data-i18n="quick.eyebrow"></p>
+          <h2 id="quick-title" data-i18n="quick.title"></h2>
+          <p data-i18n="quick.body"></p>
+        </div>
+        <div class="command-panel terminal-window">
+          <div class="window-bar">
+            <span>QUICKSTART.BAT</span>
+            <span class="window-controls">COPY READY</span>
+          </div>
+          <pre><code id="quick-command">Read ../harness-starter-kit first. Apply the harness engineering starter kit to this repository. Preserve existing architecture, tools, and conventions. Add only the minimum missing harness files. Finish with a short adoption report.</code></pre>
+          <button type="button" class="copy-button" data-i18n="quick.copy"></button>
+          <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="final-cta" aria-labelledby="final-title">
+        <p class="eyebrow" data-i18n="final.eyebrow"></p>
+        <h2 id="final-title" data-i18n="final.title"></h2>
+        <p data-i18n="final.body"></p>
+        <a class="button button-primary" href="#quick-start" data-i18n="final.cta"></a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-i18n="footer.tagline"></span>
+      <a
+        class="font-credit"
+        href="https://github.com/hurss/fonts"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Font: DOSGothic</a>
+      <span>C:\HKS&gt; END SESSION</span>
+    </footer>
+  </body>
+</html>

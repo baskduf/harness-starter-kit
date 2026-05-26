@@ -1,0 +1,24 @@
+{
+  "forbidden_patterns": [
+    "**/temp_*",
+    "**/*_new.*",
+    "**/*_old.*",
+    "**/*_backup.*",
+    "**/*_fix.*",
+    "**/*.bak"
+  ],
+  "ignored_directories": [
+    ".git",
+    ".hg",
+    ".svn",
+    ".venv",
+    "venv",
+    "node_modules",
+    "dist",
+    "build",
+    ".next",
+    ".turbo",
+    "__pycache__"
+  ]
+}
+

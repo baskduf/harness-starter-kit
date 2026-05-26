@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "check:harness": "npm run lint && npm run typecheck && npm test",
+    "check:unused": "npx knip"
+  }
+}
+
