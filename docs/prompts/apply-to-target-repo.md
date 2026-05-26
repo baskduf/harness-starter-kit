@@ -12,6 +12,10 @@ https://github.com/baskduf/harness-starter-kit
 Clone the kit into ./harness-starter-kit, read it, then apply its prompt-first
 harness engineering workflow to the current project.
 
+If I ask for /harness doctor instead of adoption, use
+./harness-starter-kit/commands/harness-doctor.md to inspect and score the
+repository without modifying files.
+
 Goal:
 Make this repository easier and safer for coding agents to work in by adding
 durable instructions, architecture constraints, feedback loops, knowledge

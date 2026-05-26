@@ -9,6 +9,10 @@ The target repository is the current working directory. The
 `./harness-starter-kit` directory is reference material during adoption; do not
 edit it unless the user asks to change the kit itself.
 
+If the user asks for `/harness doctor`, run the diagnostic command in
+`commands/harness-doctor.md` instead of the adoption workflow. Harness Doctor
+scores readiness and recommends next actions; it does not modify files.
+
 ## 1. Read The Target Repository
 
 Collect the current shape before changing anything:
