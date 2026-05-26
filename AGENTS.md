@@ -43,14 +43,19 @@ When an agent is applying the kit from this nested layout:
 
 ## Commands
 
+When the user asks for `/harness doctor`, run the diagnostic workflow in
+`commands/harness-doctor.md`. It must inspect and report only; it must not
+modify files.
+
 Run these checks after changing installer behavior, templates, or drift scripts:
 
 ```powershell
 python -m unittest discover -s tests
-python -m py_compile scripts/apply_harness.py scripts/check_docs_drift.py scripts/check_structure.py scripts/check_effectiveness_plan.py
+python -m py_compile scripts/apply_harness.py scripts/check_docs_drift.py scripts/check_structure.py scripts/check_effectiveness_plan.py scripts/harness_doctor.py
 python scripts/check_docs_drift.py
 python scripts/check_structure.py
 python scripts/check_effectiveness_plan.py
+python scripts/harness_doctor.py --target .
 ```
 
 ## How To Apply This Kit To A Target Repository

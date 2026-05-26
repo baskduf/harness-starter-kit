@@ -12,6 +12,8 @@ This map connects harness engineering concepts to files in a target repository.
 | Document drift check | `scripts/check_docs_drift.py` | `templates/generic/scripts/check_docs_drift.py` |
 | Structure drift check | `scripts/check_structure.py` | `templates/generic/scripts/check_structure.py` |
 | Effectiveness plan check | `scripts/check_effectiveness_plan.py` | `templates/generic/scripts/check_effectiveness_plan.py` |
+| Harness readiness diagnostic | `/harness doctor` report | `commands/harness-doctor.md`, `docs/scoring/harness-score-rubric.md` |
+| Baseline harness score scan | preliminary file and directory scan | `scripts/harness_doctor.py` |
 | Optional scheduled harness check | `.github/workflows/harness-check.yml` | `templates/generic/.github/workflows/harness-check.yml` |
 | Stack-specific rules | lint/type/pre-commit/framework snippets | `templates/profiles/*` |
 | Profile absorption | checklist for turning profile snippets into project rules | `docs/checklists/profile-absorption.md` |
@@ -32,3 +34,7 @@ For a very small project, the agent should add or adapt only:
 Then grow the harness as the project and agent usage mature.
 Use the optional GitHub Actions workflow skeleton with `--with-ci` only after
 confirming the target repository uses GitHub Actions.
+
+Use `/harness doctor` when the maintainer wants a diagnostic score before or
+after adoption. The command reports readiness; it does not install harness
+files.
