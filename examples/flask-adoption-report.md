@@ -14,7 +14,7 @@ client.
 - Added `scripts/check_harness.py` as the single local verification entrypoint.
 - Added `docs/conventions/coding.md`, `docs/domain/glossary.md`, and
   `docs/decisions/001-adopt-flask-agent-harness.md`.
-- Added Python profile snippets under `docs/harness/profiles/python/`.
+- Added Flask profile snippets under `docs/harness/profiles/flask/`.
 - Added `.gitignore` entries for `.venv/`, generated Python caches, Flask
   instance directories, and `harness-starter-kit/`.
 
