@@ -191,8 +191,8 @@ def check_docs(root: Path) -> int:
             ):
                 missing_paths.append((doc, reference.value))
 
-    for doc, reference in missing_paths:
-        print(f"Missing referenced path in {doc.relative_to(root)}: {reference}")
+    for doc, reference_value in missing_paths:
+        print(f"Missing referenced path in {doc.relative_to(root)}: {reference_value}")
 
     return 1 if missing_paths else 0
 
