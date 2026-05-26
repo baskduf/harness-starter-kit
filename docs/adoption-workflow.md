@@ -84,6 +84,10 @@ when they fit the target repository's existing tools and conventions.
 
 Prefer existing tools when possible.
 
+If a repository starts with the generic harness and later gains a real stack,
+run `docs/checklists/profile-absorption.md`. Use it to decide which profile
+snippets should become real commands, config, ignores, documentation, or checks.
+
 ## 6. Add Feedback Loops
 
 Make the common path fast:

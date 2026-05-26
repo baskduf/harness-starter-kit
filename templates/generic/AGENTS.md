@@ -58,6 +58,11 @@ Before making architectural or domain-level changes, inspect:
 When a decision or rejected approach becomes relevant, add a short record to the
 appropriate directory.
 
+When a new stack, framework, build tool, UI layer, API layer, or test runner is
+introduced after generic adoption, review the closest profile under
+`docs/harness/profiles/<profile>/` if present. Decide which profile snippets to
+adopt, adapt, skip, or defer, then report those choices before finishing.
+
 ## Documentation Rules
 
 When a change affects project structure, UI architecture, state management,

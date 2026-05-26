@@ -12,5 +12,6 @@ Use this checklist after copying the starter kit into a target repository.
 - [ ] `docs/domain/` captures business terms or invariants when relevant.
 - [ ] Drift scripts run locally.
 - [ ] CI or pre-commit runs the stable checks.
+- [ ] If the first real stack or app has been introduced, run
+      `docs/checklists/profile-absorption.md`.
 - [ ] The final adoption report lists remaining manual integration steps.
-

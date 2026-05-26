@@ -199,6 +199,12 @@ under `docs/harness/profiles/<profile>/` so an agent or maintainer can merge,
 adapt, or ignore the relevant snippets while preserving the target project's
 existing build system.
 
+If a repository starts with the generic harness and later introduces a concrete
+stack, run the
+[`profile-absorption` checklist](docs/checklists/profile-absorption.md). It
+helps decide which profile snippets should become real project scripts,
+configuration, ignores, documentation, or checks.
+
 ## Tested Scenarios
 
 Automated fixture smoke tests cover harness installation for:

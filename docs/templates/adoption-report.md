@@ -23,6 +23,13 @@ Result: TODO
 - Not updated: TODO: explain why if this adoption or change did not require a
   durable docs update.
 
+## Profile Absorption
+
+- Profile reviewed: TODO
+- Snippets adopted: TODO
+- Snippets adapted: TODO
+- Snippets skipped or deferred: TODO
+
 ## Assumptions
 
 - TODO
