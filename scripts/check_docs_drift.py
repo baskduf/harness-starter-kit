@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Detect stale file and command references in agent-facing docs."""
+"""Detect stale file references and broken local Markdown links in docs."""
 
 from __future__ import annotations
 

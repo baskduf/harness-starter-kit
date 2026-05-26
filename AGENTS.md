@@ -118,7 +118,7 @@ Store durable context in `docs/`:
 Add checks for drift:
 
 - code drift: unused code, dead imports, duplicate helpers
-- document drift: `AGENTS.md` references missing files or stale commands
+- document drift: docs reference missing files or broken Markdown links
 - structure drift: temporary files or paths outside the agreed architecture
 
 ## Starter Kit Editing Rules

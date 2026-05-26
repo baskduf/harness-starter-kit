@@ -97,8 +97,8 @@ Agents improve fastest when feedback is quick and concrete.
 Install lightweight drift checks:
 
 - missing files referenced by docs
+- broken local Markdown links
 - forbidden temporary filenames
-- stale commands in `AGENTS.md`
 - unused code checks for the chosen stack
 
 Run them manually at first, then wire them into CI once they are stable. The
