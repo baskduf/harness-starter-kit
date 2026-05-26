@@ -27,6 +27,9 @@ commands. On Windows PowerShell, that is often:
 
 Copy or adapt `check_harness.py` into the target repository's `scripts/`
 directory when the project has no existing task runner.
+The script excludes generated harness profile snippets and local virtual
+environments from mypy by default so copied reference files do not create
+duplicate-module noise.
 
 ## FastAPI Notes
 
