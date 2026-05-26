@@ -22,3 +22,5 @@ jobs:
       - name: Check structure drift
         run: python scripts/check_structure.py
 
+      - name: Check effectiveness measurement reports
+        run: python scripts/check_effectiveness_plan.py

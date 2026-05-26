@@ -47,9 +47,10 @@ Run these checks after changing installer behavior, templates, or drift scripts:
 
 ```powershell
 python -m unittest discover -s tests
-python -m py_compile scripts/apply_harness.py scripts/check_docs_drift.py scripts/check_structure.py
+python -m py_compile scripts/apply_harness.py scripts/check_docs_drift.py scripts/check_structure.py scripts/check_effectiveness_plan.py
 python scripts/check_docs_drift.py
 python scripts/check_structure.py
+python scripts/check_effectiveness_plan.py
 ```
 
 ## How To Apply This Kit To A Target Repository
@@ -87,6 +88,7 @@ python scripts/check_structure.py
 6. Finish with an adoption report.
    - List files added or changed.
    - List checks the agent can run.
+   - Fill the effectiveness measurement plan.
    - List remaining manual steps.
    - Name any assumptions made about the target stack.
 

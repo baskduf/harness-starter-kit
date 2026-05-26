@@ -39,6 +39,9 @@ class ApplyHarnessTests(unittest.TestCase):
 
             self.assertTrue((target / "AGENTS.md").exists())
             self.assertTrue((target / "scripts" / "check_docs_drift.py").exists())
+            self.assertTrue(
+                (target / "scripts" / "check_effectiveness_plan.py").exists()
+            )
             self.assertFalse(
                 (target / ".github" / "workflows" / "harness-check.yml").exists()
             )
@@ -141,6 +144,13 @@ class ApplyHarnessTests(unittest.TestCase):
                 text=True,
             )
             self.assertEqual(0, result2.returncode)
+            result3 = subprocess.run(
+                [sys.executable, str(target / "scripts" / "check_effectiveness_plan.py")],
+                cwd=target,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(0, result3.returncode)
 
     def test_fastapi_profile_snippets_are_written_under_docs_harness(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

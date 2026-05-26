@@ -96,6 +96,7 @@ class FixtureSmokeTests(unittest.TestCase):
 
                     self.run_generated_check(target, "check_docs_drift.py")
                     self.run_generated_check(target, "check_structure.py")
+                    self.run_generated_check(target, "check_effectiveness_plan.py")
 
 
 if __name__ == "__main__":

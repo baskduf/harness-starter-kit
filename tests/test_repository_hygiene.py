@@ -39,6 +39,28 @@ class RepositoryHygieneTests(unittest.TestCase):
         self.assertIn("docs", text)
         self.assertIn("harness", text)
 
+    def test_effectiveness_measurement_is_wired_into_adoption_flow(self) -> None:
+        adoption_report = (
+            REPO_ROOT / "docs" / "templates" / "adoption-report.md"
+        ).read_text(encoding="utf-8")
+        agent_template = (REPO_ROOT / "templates" / "generic" / "AGENTS.md").read_text(
+            encoding="utf-8"
+        )
+        adoption_prompt = (
+            REPO_ROOT / "docs" / "prompts" / "apply-to-target-repo.md"
+        ).read_text(encoding="utf-8")
+        readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+
+        self.assertIn("## Effectiveness Measurement Plan", adoption_report)
+        self.assertIn("Do not leave this section as TODO", adoption_report)
+        self.assertIn("Baseline available", adoption_report)
+        self.assertIn("Primary metric", adoption_report)
+        self.assertIn("Results location", adoption_report)
+        self.assertIn("effectiveness measurement plan", agent_template)
+        self.assertIn("Effectiveness Measurement Plan", adoption_prompt)
+        self.assertIn("They do not prove", readme)
+        self.assertIn("docs/evaluation.md", readme)
+
 
 if __name__ == "__main__":
     unittest.main()
