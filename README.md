@@ -14,7 +14,15 @@
 
 **English** | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-CN.md)
 
-[Web Site](https://baskduf.github.io/harness-starter-kit/)
+<p align="center">
+  <a href="https://baskduf.github.io/harness-starter-kit/">
+    <img alt="Launch site" src="https://img.shields.io/badge/Launch-Agent_Session_Demo-0077ff?style=for-the-badge" />
+  </a>
+</p>
+
+<p align="center">
+  See how a pasted prompt becomes durable repo rules, checks, and memory.
+</p>
 
 `harness-starter-kit` is a prompt-first starter kit for applying harness
 engineering to software projects. It helps agents move repeated instructions

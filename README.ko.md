@@ -2,8 +2,15 @@
 
 **[English](README.md)** | **한국어** | [日本語](README.ja.md) | [简体中文](README.zh-CN.md)
 
-[Site](https://baskduf.github.io/harness-starter-kit/) |
-[Adoption prompt](docs/prompts/apply-to-target-repo.md)
+<p align="center">
+  <a href="https://baskduf.github.io/harness-starter-kit/">
+    <img alt="Launch site" src="https://img.shields.io/badge/Launch-Agent_Session_Demo-0077ff?style=for-the-badge" />
+  </a>
+</p>
+
+<p align="center">
+  붙여넣은 prompt가 저장소 규칙, checks, memory로 남는 흐름을 확인하세요.
+</p>
 
 `harness-starter-kit`은 소프트웨어 프로젝트에 harness engineering을 적용하기
 위한 prompt-first starter kit입니다. 반복되는 지시를 채팅이 아니라 저장소 안의

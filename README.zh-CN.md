@@ -2,8 +2,15 @@
 
 **[English](README.md)** | [한국어](README.ko.md) | [日本語](README.ja.md) | **简体中文**
 
-[Site](https://baskduf.github.io/harness-starter-kit/) |
-[Adoption prompt](docs/prompts/apply-to-target-repo.md)
+<p align="center">
+  <a href="https://baskduf.github.io/harness-starter-kit/">
+    <img alt="Launch site" src="https://img.shields.io/badge/Launch-Agent_Session_Demo-0077ff?style=for-the-badge" />
+  </a>
+</p>
+
+<p align="center">
+  查看粘贴的 prompt 如何变成仓库中的 rules、checks 和 memory。
+</p>
 
 `harness-starter-kit` 是一个 prompt-first starter kit，用于把 harness
 engineering 应用到软件项目中。它帮助代理把重复指令从聊天迁移到仓库里的持久
