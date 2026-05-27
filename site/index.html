@@ -1,258 +1,144 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="A DOS-inspired scrolltelling homepage for harness-starter-kit."
+    <title>Agent | Harness Starter Kit</title>
+    <meta name="description" content="An agent session demo for Harness Starter Kit." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
     />
-    <title>harness-starter-kit</title>
+    <link rel="preload" href="assets/blue-glass-background.png" as="image" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#content">Skip to content</a>
-    <div class="crt-overlay" aria-hidden="true"></div>
+    <main class="scene" aria-labelledby="page-title">
+      <img class="scene-bg" src="assets/blue-glass-background.png" alt="" />
+      <div class="scene-wash" aria-hidden="true"></div>
 
-    <header class="topbar">
-      <a class="brand" href="#top" aria-label="harness-starter-kit home">
-        <pre aria-hidden="true"> _   _    _    ____  _   _ _____ ____ ____
-| | | |  / \  |  _ \| \ | | ____/ ___/ ___|
-| |_| | / _ \ | |_) |  \| |  _| \___ \___ \
-|  _  |/ ___ \|  _ <| |\  | |___ ___) |__) |
-|_| |_/_/   \_\_| \_\_| \_|_____|____/____/
- ____ _____  _    ____ _____ _____ ____    _  _____ _____
-/ ___|_   _|/ \  |  _ \_   _| ____|  _ \  | |/ /_ _|_   _|
-\___ \ | | / _ \ | |_) || | |  _| | |_) | | ' / | |  | |
- ___) || |/ ___ \|  _ < | | | |___|  _ <  | . \ | |  | |
-|____/ |_/_/   \_\_| \_\|_| |_____|_| \_\ |_|\_\___| |_|</pre>
-        <span class="sr-only">HARNESS STARTER KIT</span>
-      </a>
-      <nav class="language-switcher" aria-label="Language">
-        <button type="button" data-lang="en" aria-pressed="true">EN</button>
-        <button type="button" data-lang="ko" aria-pressed="false">KO</button>
-        <button type="button" data-lang="ja" aria-pressed="false">JA</button>
-        <button type="button" data-lang="zh-CN" aria-pressed="false">ZH</button>
-      </nav>
-    </header>
-
-    <main id="content">
-      <section class="hero" id="top" data-scene="boot">
-        <div class="hero-copy">
-          <p class="eyebrow" data-i18n="hero.eyebrow"></p>
-          <h1 data-i18n-type="hero.title"></h1>
-          <p class="hero-lede" data-i18n="hero.lede"></p>
-          <div class="hero-actions" aria-label="Primary actions">
-            <a class="button button-primary" href="#quick-start" data-i18n="hero.primaryCta"></a>
-            <a class="button button-secondary" href="#story" data-i18n="hero.secondaryCta"></a>
-          </div>
-        </div>
-
-        <div class="boot-window terminal-window" aria-label="Boot terminal">
+      <section class="product-stage" aria-label="Agent product demo">
+        <section class="app-window glass" aria-label="Agent session">
           <div class="window-bar">
-            <span>HARNESS.EXE</span>
-            <span class="window-controls">[_] [=] [X]</span>
-          </div>
-          <pre class="boot-log" aria-hidden="true"><code>BOOTING HARNESS STARTER KIT...
-MEMORY CHECK............... OK
-LOADING RULES.............. OK
-LOADING FEEDBACK LOOPS..... OK
-DRIFT SENSOR............... READY
-C:\HKS&gt; <span id="hero-command"></span><span class="cursor">_</span></code></pre>
-        </div>
-
-        <div class="scroll-cue" aria-hidden="true">
-          <span data-i18n="hero.scrollCue"></span>
-          <span class="scroll-cue-line"></span>
-        </div>
-      </section>
-
-      <section class="story" id="story" aria-label="Scroll story">
-        <div class="terminal-stage terminal-window" aria-live="polite">
-          <div class="window-bar">
-            <span id="stage-title">SESSION.LOG</span>
-            <span class="window-controls">F1 HELP</span>
-          </div>
-          <pre id="terminal-output"><code></code></pre>
-        </div>
-
-        <div class="chapters">
-          <article class="chapter is-active" data-chapter="problem">
-            <p class="eyebrow" data-i18n="chapters.problem.eyebrow"></p>
-            <h2 data-i18n="chapters.problem.title"></h2>
-            <p data-i18n="chapters.problem.body"></p>
-          </article>
-
-          <article class="chapter" data-chapter="solution">
-            <p class="eyebrow" data-i18n="chapters.solution.eyebrow"></p>
-            <h2 data-i18n="chapters.solution.title"></h2>
-            <p data-i18n="chapters.solution.body"></p>
-          </article>
-
-          <article class="chapter" data-chapter="components">
-            <p class="eyebrow" data-i18n="chapters.components.eyebrow"></p>
-            <h2 data-i18n="chapters.components.title"></h2>
-            <p data-i18n="chapters.components.body"></p>
-          </article>
-
-          <article class="chapter" data-chapter="adoption">
-            <p class="eyebrow" data-i18n="chapters.adoption.eyebrow"></p>
-            <h2 data-i18n="chapters.adoption.title"></h2>
-            <p data-i18n="chapters.adoption.body"></p>
-          </article>
-
-          <article class="chapter" data-chapter="quickStart">
-            <p class="eyebrow" data-i18n="chapters.quickStart.eyebrow"></p>
-            <h2 data-i18n="chapters.quickStart.title"></h2>
-            <p data-i18n="chapters.quickStart.body"></p>
-          </article>
-        </div>
-      </section>
-
-      <section class="component-grid" id="components" aria-labelledby="components-title">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="components.eyebrow"></p>
-          <h2 id="components-title" data-i18n="components.title"></h2>
-        </div>
-        <div class="grid">
-          <article class="component-item">
-            <span class="item-code">01</span>
-            <h3 data-i18n="components.instructions.title"></h3>
-            <p data-i18n="components.instructions.body"></p>
-          </article>
-          <article class="component-item">
-            <span class="item-code">02</span>
-            <h3 data-i18n="components.constraints.title"></h3>
-            <p data-i18n="components.constraints.body"></p>
-          </article>
-          <article class="component-item">
-            <span class="item-code">03</span>
-            <h3 data-i18n="components.feedback.title"></h3>
-            <p data-i18n="components.feedback.body"></p>
-          </article>
-          <article class="component-item">
-            <span class="item-code">04</span>
-            <h3 data-i18n="components.knowledge.title"></h3>
-            <p data-i18n="components.knowledge.body"></p>
-          </article>
-        </div>
-      </section>
-
-      <section class="structure-view" id="structure" aria-labelledby="structure-title">
-        <div class="section-heading">
-          <p class="eyebrow" data-i18n="structure.eyebrow"></p>
-          <h2 id="structure-title" data-i18n="structure.title"></h2>
-          <p data-i18n="structure.body"></p>
-        </div>
-        <div class="structure-shell terminal-window">
-          <div class="window-bar">
-            <span>TREE.EXE</span>
-            <span class="window-controls">/A /F</span>
-          </div>
-          <div class="tree-columns">
-            <div class="tree-column">
-              <p class="tree-label" data-i18n="structure.kitLabel"></p>
-              <pre aria-label="harness-starter-kit folder tree"><code>C:\workspace\target-repo
-|-- harness-starter-kit
-|   |-- AGENTS.md
-|   |-- README.md
-|   |-- docs
-|   |   |-- decisions
-|   |   |-- failures
-|   |   |-- conventions
-|   |   `-- domain
-|   |-- scripts
-|   |   |-- apply_harness.py
-|   |   |-- check_docs_drift.py
-|   |   `-- check_structure.py
-|   `-- templates
-`-- existing-project-files</code></pre>
+            <div class="window-controls" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
-            <div class="tree-column">
-              <p class="tree-label" data-i18n="structure.targetLabel"></p>
-              <pre aria-label="target repository folder tree after adoption"><code>C:\workspace\target-repo
-|-- AGENTS.md
-|-- docs
-|   |-- decisions
-|   |-- failures
-|   |-- conventions
-|   |-- domain
-|   `-- harness
-|       `-- profiles
-|-- harness-starter-kit
-|   `-- starter-kit-source
-|-- scripts
-|   |-- check_docs_drift.py
-|   `-- check_structure.py
-`-- existing-project-files</code></pre>
+            <h1 id="page-title">harness-starter-kit</h1>
+          </div>
+          <aside class="sidebar" aria-label="Workspace navigation">
+            <div class="sidebar-brand">
+              <span class="app-dot" aria-hidden="true"></span>
+              <strong>Agent</strong>
             </div>
+            <section class="context-block" aria-label="Repository context">
+              <span class="context-label">Repo</span>
+              <div class="context-card active-context">
+                <span class="status-dot cyan" aria-hidden="true"></span>
+                <span>harness-starter-kit</span>
+              </div>
+            </section>
+            <section class="context-block" aria-label="Files in scope">
+              <span class="context-label">Files</span>
+              <button class="file-chip is-reading" type="button">
+                <span class="file-icon file-doc" aria-hidden="true"></span>
+                AGENTS.md
+              </button>
+              <button class="file-chip" type="button">
+                <span class="file-icon file-folder" aria-hidden="true"></span>
+                docs/
+              </button>
+              <button class="file-chip" type="button">
+                <span class="file-icon file-folder" aria-hidden="true"></span>
+                scripts/
+              </button>
+            </section>
+          </aside>
+
+          <section class="session-main" aria-label="Prompt and conversation">
+            <div class="session-header">
+            </div>
+
+            <div class="conversation" aria-label="Live agent conversation">
+              <article class="message user-message chat-step" data-chat-step="user">
+                <span class="message-label">You</span>
+                <div class="markdown-card" aria-label="Pasted markdown prompt">
+                  <p><strong># Apply harness workflow</strong></p>
+                  <p>Use this kit to make the repo durable for future agent sessions.</p>
+                  <pre><code>- read AGENTS.md
+- inspect docs/ and scripts/
+- preserve existing architecture
+- report checks and risks</code></pre>
+                </div>
+                <div class="message-actions">
+                  <span class="copy-status" aria-live="polite"></span>
+                  <a
+                    class="github-message"
+                    href="https://github.com/baskduf/harness-starter-kit"
+                    aria-label="Open GitHub repository"
+                  >
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                      <path d="M12 2.7a9.3 9.3 0 0 0-2.94 18.12c.47.08.64-.2.64-.45v-1.58c-2.6.56-3.15-1.12-3.15-1.12-.43-1.08-1.04-1.37-1.04-1.37-.85-.58.06-.57.06-.57.94.07 1.44.97 1.44.97.84 1.43 2.2 1.02 2.73.78.08-.6.33-1.02.6-1.25-2.08-.24-4.26-1.04-4.26-4.62 0-1.02.36-1.85.96-2.5-.1-.24-.42-1.2.1-2.48 0 0 .79-.25 2.57.96A8.9 8.9 0 0 1 12 6.25c.78 0 1.57.1 2.3.31 1.78-1.21 2.56-.96 2.56-.96.52 1.28.2 2.24.1 2.48.6.65.96 1.48.96 2.5 0 3.59-2.19 4.38-4.27 4.61.34.29.64.86.64 1.74v2.58c0 .25.17.54.65.45A9.3 9.3 0 0 0 12 2.7Z" />
+                    </svg>
+                  </a>
+                  <button class="copy-message" type="button" aria-label="Copy prompt">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                      <path d="M8 8.5A2.5 2.5 0 0 1 10.5 6H17a2.5 2.5 0 0 1 2.5 2.5V15a2.5 2.5 0 0 1-2.5 2.5h-6.5A2.5 2.5 0 0 1 8 15V8.5Z" />
+                      <path d="M5.5 13.5V7A2.5 2.5 0 0 1 8 4.5h6.5" />
+                    </svg>
+                  </button>
+                </div>
+              </article>
+              <article class="message codex-message chat-step" data-chat-step="agent">
+                <span class="message-label">Agent</span>
+                <div class="codex-output">
+                  <p id="codex-response">Reading repository context.</p>
+                  <ul>
+                    <li>Scope detected: site</li>
+                    <li>Rules source: AGENTS.md</li>
+                    <li>Next: plan safe edits</li>
+                  </ul>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <aside class="run-panel" aria-label="Run progress">
+            <div class="run-head">
+              <span class="pulse-dot" aria-hidden="true"></span>
+              Running
+            </div>
+            <ol id="task-list"></ol>
+          </aside>
+        </section>
+      </section>
+
+      <button class="help-trigger" type="button" aria-label="Open help" aria-controls="help-modal">
+        ?
+      </button>
+
+      <div class="help-modal" id="help-modal" aria-hidden="true">
+        <div class="help-backdrop" data-help-close></div>
+        <section class="help-dialog glass" role="dialog" aria-modal="true" aria-labelledby="help-title">
+          <button class="help-close" type="button" aria-label="Close help" data-help-close>×</button>
+          <span class="context-label">Harness Starter Kit</span>
+          <h2 id="help-title">Turn prompts into repo memory.</h2>
+          <p>
+            A prompt-first kit for helping coding agents work reliably inside your project.
+            It moves repeated chat instructions into durable rules, checks, and knowledge.
+          </p>
+          <div class="help-points" aria-label="What the kit adds">
+            <div><span>01</span><strong>AGENTS.md</strong></div>
+            <div><span>02</span><strong>docs memory</strong></div>
+            <div><span>03</span><strong>drift checks</strong></div>
           </div>
-        </div>
-      </section>
-
-      <section class="quick-start" id="quick-start" aria-labelledby="quick-title">
-        <div class="quick-copy">
-          <p class="eyebrow" data-i18n="quick.eyebrow"></p>
-          <h2 id="quick-title" data-i18n="quick.title"></h2>
-          <p data-i18n="quick.body"></p>
-        </div>
-        <div class="command-panel terminal-window">
-          <div class="window-bar">
-            <span>QUICKSTART.BAT</span>
-            <span class="window-controls">COPY READY</span>
-          </div>
-          <pre><code id="quick-command">Use this kit to apply harness engineering to this repository:
-
-https://github.com/baskduf/harness-starter-kit
-
-Clone the kit into ./harness-starter-kit, read it, then apply its prompt-first harness engineering workflow to the current project.
-
-Rules:
-- Treat the current working directory as the target repository.
-- Treat ./harness-starter-kit as read-only reference material after cloning.
-- Inspect this repository before editing.
-- Preserve existing architecture, tools, package manager, commands, docs, and conventions.
-- Do not blindly copy templates.
-- Add only the minimum useful harness pieces.
-- Prefer updating existing docs/configs over duplicating them.
-- Do not overwrite or delete existing files without explaining why.
-
-Expected result:
-- project-specific AGENTS.md or updated existing agent instructions
-- knowledge store if no equivalent exists
-- lightweight drift checks based on this repo's real rules
-- local verification commands using existing tools
-- adoption report with files changed, checks to run, assumptions, remaining manual steps, and whether ./harness-starter-kit should be removed, ignored, or kept before commit</code></pre>
-          <button type="button" class="copy-button" data-i18n="quick.copy"></button>
-          <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
-        </div>
-      </section>
-
-      <section class="final-cta" aria-label="Final actions">
-        <p class="eyebrow" data-i18n="final.eyebrow"></p>
-        <div class="final-actions">
-          <a class="button button-primary" href="#quick-start" data-i18n="final.cta"></a>
-          <a
-            class="button button-secondary"
-            href="https://github.com/baskduf/harness-starter-kit"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-i18n="final.github"
-          ></a>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
 
-    <footer class="footer">
-      <span data-i18n="footer.tagline"></span>
-      <a
-        class="font-credit"
-        href="https://github.com/hurss/fonts"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Font: DOSGothic</a>
-      <span>C:\HKS&gt; END SESSION</span>
-    </footer>
+    <script src="app.js"></script>
   </body>
 </html>
