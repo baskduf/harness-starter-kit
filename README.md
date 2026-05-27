@@ -18,16 +18,9 @@
   <img alt="Generic profile" src="https://img.shields.io/badge/profile-generic-6b7280?style=flat-square" />
   <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" />
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" />
-  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white" />
-</p>
-
-<p align="center">
   <img alt="Django" src="https://img.shields.io/badge/Django-092E20?style=flat-square&logo=django&logoColor=white" />
-  <img alt="Flask" src="https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white" />
   <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" />
-  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" />
-  <img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=111111" />
-  <img alt="Vue" src="https://img.shields.io/badge/Vue-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white" />
+  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white" />
 </p>
 
 **English** | [한국어](README.ko.md) | [日本語](README.ja.md) | [简体中文](README.zh-CN.md)
@@ -36,23 +29,23 @@
 [Adoption prompt](docs/prompts/apply-to-target-repo.md)
 
 `harness-starter-kit` is a prompt-first starter kit for applying harness
-engineering to any software project. It is meant to be given to an agent as a
-Git URL, cloned by that agent into the target repository, read, and adapted to
-the target repository's actual tools and constraints.
+engineering to software projects. It helps agents move repeated instructions
+out of chat and into durable repository artifacts: agent rules, constraints,
+feedback loops, knowledge storage, and drift checks.
 
-The intended workflow is simple: open the target repository with your coding
-agent, give it the kit URL and prompt, and let the agent clone, read, and adapt
-the kit.
+## Quick Start
+
+Open the target repository with your coding agent and give it this prompt:
 
 ```text
 Use this kit to apply harness engineering to this repository:
 
 https://github.com/baskduf/harness-starter-kit
 
-Clone the kit into ./harness-starter-kit, read it, then apply its prompt-first
-harness engineering workflow to the current project.
+Clone the kit into ./harness-starter-kit if it is not already present, read it,
+then apply its prompt-first harness engineering workflow to this repository.
 
-Rules:
+Requirements:
 - Treat the current working directory as the target repository.
 - Treat ./harness-starter-kit as read-only reference material after cloning.
 - Inspect this repository before editing.
@@ -62,6 +55,12 @@ Rules:
 - Add only the minimum useful harness pieces.
 - Prefer updating existing docs/configs over duplicating them.
 - Do not overwrite or delete existing files without explaining why.
+- If I ask for /harness doctor, use
+  ./harness-starter-kit/commands/harness-doctor.md.
+- If I ask for /harness update after adoption, use
+  ./harness-starter-kit/commands/harness-update.md to refresh the kit reference,
+  record .harness/source.json, and selectively update target harness files
+  without blindly overwriting existing files.
 
 Expected result:
 - project-specific AGENTS.md or updated existing agent instructions
@@ -73,138 +72,29 @@ Expected result:
   kept before commit
 ```
 
-This is not primarily an automatic installer. The target project should end up
-with a practical agent harness because an agent inspected the repository and
-added the smallest useful set of durable artifacts:
+For the full prompt and workflow details, see
+[`docs/prompts/apply-to-target-repo.md`](docs/prompts/apply-to-target-repo.md)
+and [`docs/adoption-workflow.md`](docs/adoption-workflow.md).
 
-- `AGENTS.md` for durable agent instructions
-- architecture constraints through linting, type checks, import boundaries, or
-  project-specific rules
-- feedback loops through tests, CI, pre-commit hooks, and clear failure messages
-- a knowledge store under `docs/` for decisions, failures, conventions, and
-  domain context
-- garbage-collection checks that detect code, document, and structure drift
+## Commands
 
-## Why This Exists
+### `/harness doctor`
 
-Prompting is temporary. Context is session-scoped. A harness is project-scoped.
+Run Harness Doctor to evaluate how ready a repository is for reliable AI coding
+agent collaboration. It reports a Harness Score across Agent Instructions,
+Feedback Loops, Durable Memory, Structural Safety, and Adoption Clarity.
 
-Good harness engineering moves repeated instructions out of chat and into the
-repository so agents can work inside stable rules. When an agent makes a
-mistake, the long-term fix is not only to correct that output. The better fix is
-to add a rule, test, document, or automated check that makes the same mistake
-less likely next time.
+- Command workflow: [`commands/harness-doctor.md`](commands/harness-doctor.md)
+- Rubric: [`docs/scoring/harness-score-rubric.md`](docs/scoring/harness-score-rubric.md)
+- Example report: [`docs/examples/harness-doctor-report.md`](docs/examples/harness-doctor-report.md)
 
-## Quick Start
-
-Open the target repository with your coding agent. Give the agent the Git URL
-and ask it to clone the kit into `./harness-starter-kit`, read it, and apply the
-workflow:
-
-```text
-Use this kit to apply harness engineering to this repository:
-
-https://github.com/baskduf/harness-starter-kit
-
-Clone the kit into ./harness-starter-kit, read it, then apply its prompt-first
-harness engineering workflow to the current project.
-```
-
-The prompt-first workflow is the main way to use this kit because the agent can
-inspect the target repository and adapt to its existing tools. During adoption,
-the agent should inspect the stack, package manager, test and lint commands,
-existing docs, agent instruction files, CI, and repository layout before
-editing.
-
-Before committing the target repository, decide what to do with the local
-`harness-starter-kit/` clone: remove it, add it to the target `.gitignore`, or
-keep it intentionally as a submodule/reference. Do not accidentally commit the
-nested clone as ordinary project content.
-
-If your agent cannot access GitHub, clone the kit yourself inside the target
-repository, then ask the agent to read `./harness-starter-kit` and apply the
-same workflow.
-
-### Optional Skeleton Bootstrap
-
-`apply_harness.py` is a skeleton bootstrapper, not a full harness adoption
-engine. It creates generic starter files and profile reference snippets. It does
-not inspect, merge, or validate the target repository's architecture.
-
-Use it only when you want a quick initial file structure before agent-driven
-adaptation. Preview the generated files first:
-
-```powershell
-python harness-starter-kit/scripts/apply_harness.py --target . --profile generic --dry-run
-```
-
-The script never overwrites existing files unless `--force` is provided. By
-default it installs local harness skeleton files only; add `--with-ci` only when
-the target repository should also receive the optional GitHub Actions harness
-workflow.
-
-```powershell
-python harness-starter-kit/scripts/apply_harness.py --target . --profile generic --with-ci
-```
-
-## Harness Doctor
-
-Run Harness Doctor to evaluate how ready a repository is for AI coding agent
-collaboration.
-
-```text
-/harness doctor
-```
-
-Harness Doctor scores the repository across five areas:
-
-- Agent Instructions
-- Feedback Loops
-- Durable Memory
-- Structural Safety
-- Adoption Clarity
-
-The goal is not to gamify documentation. The goal is to find weak points where
-coding agents are likely to repeat mistakes.
-
-In one sentence: `harness-starter-kit` helps you diagnose and improve how ready
-your repository is for AI coding agents.
-
-The agent command lives in
-[`commands/harness-doctor.md`](commands/harness-doctor.md). The scoring rubric
-lives in
-[`docs/scoring/harness-score-rubric.md`](docs/scoring/harness-score-rubric.md),
-with example reports in
-[`docs/examples/harness-doctor-report.md`](docs/examples/harness-doctor-report.md).
-
-For an objective baseline scan, run:
+For an objective baseline scan:
 
 ```powershell
 python scripts/harness_doctor.py --target .
 ```
 
-Sample output:
-
-```text
-Harness Doctor Report
-
-Score: 72/100
-Grade: B
-
-Verdict:
-Useful but incomplete. This repository has durable agent instructions and some
-validation loops, but it still lacks durable failure memory and CI-level
-structural enforcement.
-
-Breakdown:
-- Agent Instructions: 18/20
-- Feedback Loops: 14/20
-- Durable Memory: 10/20
-- Structural Safety: 16/20
-- Adoption Clarity: 14/20
-```
-
-## Harness Update
+### `/harness update`
 
 After a repository has adopted the harness, use `/harness update` to refresh the
 local `./harness-starter-kit` reference clone and selectively apply new harness
@@ -214,197 +104,71 @@ Harness Update records the confirmed kit source in `.harness/source.json`,
 classifies update opportunities, and finishes with a Harness Update Report. It
 must not blindly overwrite target repository files.
 
-The agent command lives in
-[`commands/harness-update.md`](commands/harness-update.md).
+- Command workflow: [`commands/harness-update.md`](commands/harness-update.md)
 
-## Agent-Driven Adoption
+## How Adoption Works
 
-In a new or existing project, the agent-driven path is the real adoption path.
-The agent should inspect first, adapt second, and report the result. Give your
-coding agent this prompt:
+This is not primarily an automatic installer. The agent should inspect the
+target repository first, then adapt the smallest useful set of harness
+artifacts:
 
-```text
-Use this kit to apply harness engineering to this repository:
+- `AGENTS.md` for durable agent instructions
+- architecture constraints through linting, type checks, import boundaries, or
+  project-specific rules
+- feedback loops through tests, CI, pre-commit hooks, and clear failure messages
+- a knowledge store under `docs/` for decisions, failures, conventions, and
+  domain context
+- garbage-collection checks that detect code, document, and structure drift
 
-https://github.com/baskduf/harness-starter-kit
-
-Clone the kit into ./harness-starter-kit if it is not already present, read it,
-then apply its prompt-first harness engineering workflow to this repository.
-
-Requirements:
-- Inspect the target repository before editing.
-- Identify the language, framework, package manager, test command, lint command,
-  build command, CI provider, docs structure, and monorepo layout if present.
-- Read existing AGENTS.md, CLAUDE.md, README, CONTRIBUTING, and CI configs if
-  they exist.
-- Preserve existing architecture, tools, and conventions.
-- Add or update AGENTS.md with project-specific rules.
-- Add docs/decisions, docs/failures, docs/conventions, and docs/domain if they
-  are missing and no equivalent knowledge store exists.
-- Add lightweight drift checks under scripts/ only when they reflect real target
-  repo rules, then wire stable checks into the closest existing verification
-  path.
-- Prefer existing linters, tests, CI, and package managers over introducing new
-  ones.
-- Do not overwrite existing files without explaining why.
-- Finish with a short report listing files changed, checks added, assumptions,
-  remaining manual integration steps, and what to do with ./harness-starter-kit
-  before committing.
-```
-
-The longer version lives in
-[`docs/prompts/apply-to-target-repo.md`](docs/prompts/apply-to-target-repo.md).
-
-## Repository Layout
-
-```text
-harness-starter-kit/
-|-- AGENTS.md
-|-- commands/
-|-- docs/
-|   |-- adoption-workflow.md
-|   |-- component-map.md
-|   |-- overview.md
-|   |-- checklists/
-|   |-- examples/
-|   |-- scoring/
-|   `-- prompts/
-|-- scripts/
-|   `-- apply_harness.py
-|-- tests/
-`-- templates/
-    |-- generic/
-    `-- profiles/
-```
-
-## Adoption Modes
-
-Use `generic` for any project. It provides the durable harness skeleton without
-assuming a language or framework.
-
-Use `python` when the target project uses Python. It adds Python-focused
-reference snippets for Ruff, mypy, vulture, and pre-commit.
-
-Use `typescript` when the target project uses JavaScript or TypeScript. It adds
-reference snippets for ESLint, dependency boundaries, unused export checks, and
-package scripts.
-
-Use `nextjs` when the target project is a Next.js app. It adds reference
-snippets for `next build`, non-emitting TypeScript checks, generated-file
-ignores, and current Next.js lint caveats.
-
-Use `django` when the target project is a Django app. It adds reference
-snippets for `manage.py check`, `manage.py test`, virtual environment ignores,
-SQLite development database ignores, and a Python `check_harness.py` entrypoint.
-
-Use `flask` when the target project is a Flask app. It adds reference snippets
-for `unittest` discovery, Flask route checks, instance-data ignores, and a
-Python `check_harness.py` entrypoint.
-
-Use `spring` when the target project is a Spring Boot app. It adds reference
-snippets for Maven or Gradle wrapper checks, Spring test commands, generated
-build output ignores, local config ignores, and a Python `check_harness.py`
-entrypoint.
-
-Profiles are intentionally conservative reference material for the agent. They
-are not automatic project transformations. During prompt-first adoption, the
-agent reads profile templates from
-`./harness-starter-kit/templates/profiles/<profile>/`. If the optional installer
-is used, it copies profile snippets into the target repository under
-`docs/harness/profiles/<profile>/` so an agent or maintainer can merge, adapt,
-or ignore them while preserving the target project's existing build system.
-
-The generic drift checks are baseline hygiene checks:
-
-- `scripts/check_docs_drift.py` catches broken local Markdown links and stale
-  file references in docs.
-- `scripts/check_structure.py` catches temporary and drift-prone filenames.
-- `scripts/check_effectiveness_plan.py` catches missing or placeholder
-  effectiveness measurement fields in adoption and effectiveness reports.
-
-Useful architecture drift checks must come from the target repository's actual
-rules. For example, if `AGENTS.md` says routes must not access the database
-directly, add a check for forbidden database imports in route files. If an ADR
-chooses Zustand instead of Redux, add a check that fails when Redux dependencies
-appear. If generated files must live under one directory, add a structure rule
-that rejects generated files elsewhere.
-
-If a repository starts with the generic harness and later introduces a concrete
-stack, run the
-[`profile-absorption` checklist](docs/checklists/profile-absorption.md). It
-helps decide which profile snippets should become real project scripts,
-configuration, ignores, documentation, or checks.
-
-## Installation And Drift Check Coverage
-
-Automated fixture smoke tests cover harness installation for:
-
-- Node.js / TypeScript
-- Next.js
-- Django
-- FastAPI
-- Flask
-- React
-- Spring Boot
-- Vue
-
-These fixture tests verify that the installer preserves existing files, writes
-the expected profile snippets, and produces runnable generic drift checks.
-
-Additional end-to-end adoption checks have been run manually against:
-
-- a Node.js ES module project using `node --test`, repeated installer runs,
-  the TypeScript profile `check_harness.py`, and intentional drift failures
-- a FastAPI project using pytest, mypy, generated drift checks, and the FastAPI
-  profile `check_harness.py`
-
-FastAPI E2E coverage is also available as an opt-in automated test because it
-creates a virtual environment and installs dependencies:
+Use the optional installer only when you want a skeleton before agent-driven
+adaptation:
 
 ```powershell
-$env:RUN_FASTAPI_E2E = "1"
-python -m unittest tests.test_fastapi_profile_e2e
+python harness-starter-kit/scripts/apply_harness.py --target . --profile generic --dry-run
 ```
 
-In GitHub Actions, run the `Harness Check` workflow manually and enable
-`run_fastapi_e2e` to execute the same dependency-installing test.
+The optional installer never overwrites existing files unless `--force` is
+provided. It copies stack profile snippets into `docs/harness/profiles/<profile>`
+for review. During prompt-first adoption, agents read profile templates from the
+cloned kit under `harness-starter-kit/templates/profiles/<profile>`.
 
-See `examples/node-adoption-report.md` and
-`examples/nextjs-adoption-report.md`, `examples/django-adoption-report.md`, or
-`examples/flask-adoption-report.md` for example adoption reports. See
-`examples/spring-adoption-report.md` for a Spring example.
+## Profiles
 
-## Lifecycle Pilot Results
+Available profiles are `generic`, `python`, `typescript`, `nextjs`, `django`,
+`flask`, `fastapi`, `spring`, `react`, and `vue`.
 
-Pilot lifecycle tests have validated prompt-first adoption from blank
-repositories into minimal Django and Next.js projects. These tests verified
-generic-first adoption, later stack-specific profile absorption, filled
-measurement plans, and runnable local checks. The Next.js pilot also verified
-post-adoption cleanup and Git hygiene after removing the local kit clone.
+Profiles are conservative reference material, not automatic transformations.
+Adopt only the snippets that fit the target repository's current tools and
+maintenance expectations. For profile absorption after a stack is introduced,
+use [`docs/checklists/profile-absorption.md`](docs/checklists/profile-absorption.md).
 
-These pilots validate adoption behavior and measurement readiness. They do not
-prove that harness adoption reduces repeated agent mistakes; that requires
-follow-up comparable task runs. See
-[`docs/examples/lifecycle-pilot-results.md`](docs/examples/lifecycle-pilot-results.md)
-for the pilot summary.
+## Documentation Map
 
-## Effectiveness Measurement
+- Overview: [`docs/overview.md`](docs/overview.md)
+- Adoption workflow: [`docs/adoption-workflow.md`](docs/adoption-workflow.md)
+- Full adoption prompt: [`docs/prompts/apply-to-target-repo.md`](docs/prompts/apply-to-target-repo.md)
+- Component map: [`docs/component-map.md`](docs/component-map.md)
+- Validation coverage: [`docs/validation.md`](docs/validation.md)
+- Effectiveness evaluation: [`docs/evaluation.md`](docs/evaluation.md)
+- Lifecycle pilot details: [`docs/examples/lifecycle-pilot-results.md`](docs/examples/lifecycle-pilot-results.md)
 
-The automated tests above verify installation behavior and runnable drift
-checks. They do not prove that harness adoption reduces repeated agent mistakes.
-Measure that separately with the protocol in
-[`docs/evaluation.md`](docs/evaluation.md).
+## Validation And Measurement
 
-At adoption time, fill the Effectiveness Measurement Plan in
-[`docs/templates/adoption-report.md`](docs/templates/adoption-report.md). If no
-baseline exists, record harnessed-only tracking and define the next comparable
-tasks, primary metric, review window, and results location. Record actual
-before/after or follow-up observations with
-[`docs/templates/effectiveness-report.md`](docs/templates/effectiveness-report.md).
+Automated fixture tests cover installation and runnable drift checks across
+Node.js, Next.js, Django, FastAPI, Flask, React, Spring Boot, Vue, Python, and
+TypeScript-oriented profiles. See [`docs/validation.md`](docs/validation.md) for
+coverage details and opt-in E2E checks.
+
+They do not prove that harness adoption reduces repeated agent mistakes. Use
+[`docs/evaluation.md`](docs/evaluation.md) and
+[`docs/templates/effectiveness-report.md`](docs/templates/effectiveness-report.md)
+to measure comparable tasks, wrong-file edits, first-pass verification, and
+human rework.
 
 ## Local Checks
 
-Run these checks before changing the starter kit templates or installer:
+Run these checks before changing starter-kit templates, command workflows,
+installer behavior, or drift scripts:
 
 ```powershell
 python -m unittest discover -s tests
@@ -422,12 +186,5 @@ This project is licensed under the [MIT License](LICENSE).
 ## Core Principle
 
 Every recurring agent failure should be converted into at least one durable
-artifact:
-
-- a clearer instruction in `AGENTS.md`
-- an automated constraint
-- a test or CI check
-- a decision or failure record
-- a drift check
-
-That is the heart of harness engineering.
+artifact: a clearer instruction, an automated constraint, a test or CI check, a
+decision or failure record, or a drift check.

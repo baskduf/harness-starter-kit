@@ -1,55 +1,30 @@
-<pre align="center">
- _   _    _    ____  _   _ _____ ____ ____
-| | | |  / \  |  _ \| \ | | ____/ ___/ ___|
-| |_| | / _ \ | |_) |  \| |  _| \___ \___ \
-|  _  |/ ___ \|  _ <| |\  | |___ ___) |__) |
-|_| |_/_/   \_\_| \_\_| \_|_____|____/____/
-
- ____ _____  _    ____ _____ _____ ____    _  _____ _____
-/ ___|_   _|/ \  |  _ \_   _| ____|  _ \  | |/ /_ _|_   _|
-\___ \ | | / _ \ | |_) || | |  _| | |_) | | ' / | |  | |
- ___) || |/ ___ \|  _ < | | | |___|  _ <  | . \ | |  | |
-|____/ |_/_/   \_\_| \_\|_| |_____|_| \_\ |_|\_\___| |_|
-</pre>
-
 # harness-starter-kit
 
-<p align="center">
-  <img alt="Generic profile" src="https://img.shields.io/badge/profile-generic-6b7280?style=flat-square" />
-  <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" />
-  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" />
-  <img alt="Spring Boot" src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white" />
-</p>
+**[English](README.md)** | [한국어](README.ko.md) | **日本語** | [简体中文](README.zh-CN.md)
 
-<p align="center">
-  <img alt="Django" src="https://img.shields.io/badge/Django-092E20?style=flat-square&logo=django&logoColor=white" />
-  <img alt="Flask" src="https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white" />
-  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" />
-  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" />
-  <img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=111111" />
-  <img alt="Vue" src="https://img.shields.io/badge/Vue-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white" />
-</p>
+[Site](https://baskduf.github.io/harness-starter-kit/) |
+[Adoption prompt](docs/prompts/apply-to-target-repo.md)
 
-[English](README.md) | [한국어](README.ko.md) | **日本語** | [简体中文](README.zh-CN.md)
+`harness-starter-kit` は、ソフトウェアプロジェクトに harness engineering を
+適用するための prompt-first starter kit です。繰り返しの指示をチャットでは
+なく、リポジトリ内の rules、constraints、feedback loops、knowledge store、
+drift checks として残せるようにします。
 
-`harness-starter-kit` は、あらゆるソフトウェアプロジェクトに harness
-engineering を適用するための prompt-first スターターキットです。Git URL を
-エージェントに渡し、エージェントが対象リポジトリ内に clone して読み、その
-リポジトリの実際のツールと制約に合わせて適用することを想定しています。
+詳細な運用ドキュメントは英語を基準に維持します。この README は入口です。
 
-想定しているワークフローはシンプルです。対象リポジトリをコーディング
-エージェントで開き、キットの URL とプロンプトを渡し、エージェントに clone、
-read、adapt させます。
+## クイックスタート
+
+対象リポジトリをコーディングエージェントで開き、次の prompt を渡します。
 
 ```text
 Use this kit to apply harness engineering to this repository:
 
 https://github.com/baskduf/harness-starter-kit
 
-Clone the kit into ./harness-starter-kit, read it, then apply its prompt-first
-harness engineering workflow to the current project.
+Clone the kit into ./harness-starter-kit if it is not already present, read it,
+then apply its prompt-first harness engineering workflow to this repository.
 
-Rules:
+Requirements:
 - Treat the current working directory as the target repository.
 - Treat ./harness-starter-kit as read-only reference material after cloning.
 - Inspect this repository before editing.
@@ -59,6 +34,12 @@ Rules:
 - Add only the minimum useful harness pieces.
 - Prefer updating existing docs/configs over duplicating them.
 - Do not overwrite or delete existing files without explaining why.
+- If I ask for /harness doctor, use
+  ./harness-starter-kit/commands/harness-doctor.md.
+- If I ask for /harness update after adoption, use
+  ./harness-starter-kit/commands/harness-update.md to refresh the kit reference,
+  record .harness/source.json, and selectively update target harness files
+  without blindly overwriting existing files.
 
 Expected result:
 - project-specific AGENTS.md or updated existing agent instructions
@@ -70,311 +51,102 @@ Expected result:
   kept before commit
 ```
 
-対象プロジェクトには、実用的なエージェント harness が残るべきです。
+完全な prompt と workflow は
+[`docs/prompts/apply-to-target-repo.md`](docs/prompts/apply-to-target-repo.md) と
+[`docs/adoption-workflow.md`](docs/adoption-workflow.md) を参照してください。
 
-- 永続的なエージェント指示のための `AGENTS.md`
-- lint、type check、import boundary、プロジェクト固有ルールによる
-  アーキテクチャ制約
-- test、CI、pre-commit hook、明確な失敗メッセージによるフィードバックループ
-- decision、failure、convention、domain context を保存する `docs/` ナレッジストア
-- code、document、structure drift を検出する garbage-collection check
+## コマンド
 
-## なぜ必要か
+### `/harness doctor`
 
-プロンプトは一時的です。コンテキストはセッションに閉じています。harness は
-プロジェクトに残ります。
+Harness Doctor は、リポジトリが AI coding agent と安定して協働できる状態かを
+評価します。Agent Instructions、Feedback Loops、Durable Memory、Structural
+Safety、Adoption Clarity に基づいて Harness Score を報告します。
 
-よい harness engineering は、繰り返し使う指示をチャットからリポジトリへ
-移します。そうすることで、エージェントは安定したルールの中で作業できます。
-エージェントがミスをしたとき、長期的な解決策は出力だけを直すことでは
-ありません。同じミスが次に起きにくくなるように、ルール、テスト、文書、
-自動チェックを追加することです。
+- Command workflow: [`commands/harness-doctor.md`](commands/harness-doctor.md)
+- Rubric: [`docs/scoring/harness-score-rubric.md`](docs/scoring/harness-score-rubric.md)
+- Example report: [`docs/examples/harness-doctor-report.md`](docs/examples/harness-doctor-report.md)
 
-## クイックスタート
-
-対象リポジトリをコーディングエージェントで開きます。エージェントに Git URL
-を渡し、`./harness-starter-kit` に clone して読み、workflow を適用するよう
-依頼します。
-
-```text
-Use this kit to apply harness engineering to this repository:
-
-https://github.com/baskduf/harness-starter-kit
-
-Clone the kit into ./harness-starter-kit, read it, then apply its prompt-first
-harness engineering workflow to the current project.
-```
-
-エージェントが GitHub にアクセスできない場合は、対象リポジトリ内に手動で
-clone してから、エージェントに `./harness-starter-kit` を読んで同じ
-workflow を適用するよう依頼してください。
-
-### 任意: Skeleton Bootstrap
-
-`apply_harness.py` は skeleton bootstrapper であり、full harness adoption
-engine ではありません。手動で実行したい場合は、まず生成されるファイルを
-確認します。
-
-```powershell
-python harness-starter-kit/scripts/apply_harness.py --target . --profile generic --dry-run
-```
-
-このスクリプトは、`--force` を指定しない限り既存ファイルを上書きしません。
-デフォルトではローカル harness ファイルだけを導入します。対象リポジトリに
-任意の GitHub Actions harness workflow も追加する場合だけ `--with-ci` を指定します。
-
-```powershell
-python harness-starter-kit/scripts/apply_harness.py --target . --profile generic --with-ci
-```
-
-## Harness Doctor
-
-Harness Doctor を実行すると、リポジトリが AI コーディングエージェントとの
-協働にどれだけ準備できているかを評価できます。
-
-```text
-/harness doctor
-```
-
-Harness Doctor はリポジトリを五つの領域で採点します。
-
-- Agent Instructions
-- Feedback Loops
-- Durable Memory
-- Structural Safety
-- Adoption Clarity
-
-目的はドキュメントをゲーム化することではありません。コーディングエージェントが
-同じ失敗を繰り返しやすい弱点を見つけることです。
-
-一文で言うと、`harness-starter-kit` はリポジトリが AI コーディングエージェントに
-どれだけ対応できているかを診断し、改善するための助けになります。
-
-エージェントコマンドは
-[`commands/harness-doctor.md`](commands/harness-doctor.md) にあります。採点
-ルーブリックは
-[`docs/scoring/harness-score-rubric.md`](docs/scoring/harness-score-rubric.md)、
-サンプルレポートは
-[`docs/examples/harness-doctor-report.md`](docs/examples/harness-doctor-report.md)
-にあります。
-
-客観的な baseline scan は次のように実行できます。
+客観的な baseline scan:
 
 ```powershell
 python scripts/harness_doctor.py --target .
 ```
 
-出力例:
+### `/harness update`
 
-```text
-Harness Doctor Report
-
-Score: 72/100
-Grade: B
-
-Verdict:
-Useful but incomplete. This repository has durable agent instructions and some
-validation loops, but it still lacks durable failure memory and CI-level
-structural enforcement.
-
-Breakdown:
-- Agent Instructions: 18/20
-- Feedback Loops: 14/20
-- Durable Memory: 10/20
-- Structural Safety: 16/20
-- Adoption Clarity: 14/20
-```
-
-## Harness Update
-
-リポジトリが harness を採用した後は、`/harness update` を使ってローカルの
+リポジトリが harness を採用した後は、`/harness update` でローカルの
 `./harness-starter-kit` 参照 clone を更新し、新しい harness guidance のうち
-合うものだけを選択的に適用できます。
+合うものだけを選択的に反映できます。
 
 Harness Update は確認済みの kit source を `.harness/source.json` に記録し、
 update 候補を分類して Harness Update Report で完了します。target repository
 のファイルを無条件に上書きしてはいけません。
 
-Agent command は [`commands/harness-update.md`](commands/harness-update.md) に
-あります。
+- Command workflow: [`commands/harness-update.md`](commands/harness-update.md)
 
-## エージェント主導の導入
+## 導入の考え方
 
-新規または既存のプロジェクトで、コーディングエージェントに次のプロンプトを
-渡してください。
+この kit は主に自動 installer ではありません。エージェントは対象リポジトリを
+先に読み、最小限の有用な harness artifact だけを適用します。
 
-```text
-Use this kit to apply harness engineering to this repository:
+- `AGENTS.md`: durable agent instructions
+- lint、type check、import boundary、project rule による architecture constraints
+- tests、CI、pre-commit hooks、明確な失敗メッセージによる feedback loops
+- `docs/` 配下の decisions、failures、conventions、domain knowledge store
+- code、docs、structure drift を検出する garbage-collection checks
 
-https://github.com/baskduf/harness-starter-kit
-
-Clone the kit into ./harness-starter-kit if it is not already present, read it,
-then apply its prompt-first harness engineering workflow to this repository.
-
-Requirements:
-- Inspect the target repository before editing.
-- Identify the language, framework, package manager, test command, lint command,
-  build command, CI provider, docs structure, and monorepo layout if present.
-- Read existing AGENTS.md, CLAUDE.md, README, CONTRIBUTING, and CI configs if
-  they exist.
-- Preserve existing architecture, tools, and conventions.
-- Add or update AGENTS.md with project-specific rules.
-- Add docs/decisions, docs/failures, docs/conventions, and docs/domain if they
-  are missing and no equivalent knowledge store exists.
-- Add lightweight drift checks under scripts/ only when they reflect real target
-  repo rules, then wire stable checks into the closest existing verification
-  path.
-- Prefer existing linters, tests, CI, and package managers over introducing new
-  ones.
-- Do not overwrite existing files without explaining why.
-- Finish with a short report listing files changed, checks added, assumptions,
-  remaining manual integration steps, and what to do with ./harness-starter-kit
-  before committing.
-```
-
-長い版は
-[`docs/prompts/apply-to-target-repo.md`](docs/prompts/apply-to-target-repo.md) に
-あります。
-
-## リポジトリ構成
-
-```text
-harness-starter-kit/
-|-- AGENTS.md
-|-- commands/
-|-- docs/
-|   |-- adoption-workflow.md
-|   |-- component-map.md
-|   |-- overview.md
-|   |-- checklists/
-|   |-- examples/
-|   |-- scoring/
-|   `-- prompts/
-|-- scripts/
-|   `-- apply_harness.py
-|-- tests/
-`-- templates/
-    |-- generic/
-    `-- profiles/
-```
-
-## 導入モード
-
-`generic` はどのプロジェクトにも使えます。特定の言語やフレームワークを
-仮定せず、durable harness skeleton を提供します。
-
-`python` は対象プロジェクトが Python を使っている場合に選びます。Ruff、
-mypy、vulture、pre-commit 向けの Python 用リファレンススニペットを追加します。
-
-`typescript` は対象プロジェクトが JavaScript または TypeScript を使っている
-場合に選びます。ESLint、dependency boundary、unused export check、package
-script 向けのリファレンススニペットを追加します。
-
-`nextjs` は対象プロジェクトが Next.js アプリの場合に選びます。`next build`、
-emit しない TypeScript check、generated file ignore、現在の Next.js lint の
-注意点に関するリファレンススニペットを追加します。
-
-`django` は対象プロジェクトが Django アプリの場合に選びます。`manage.py
-check`、`manage.py test`、virtual environment ignore、SQLite 開発 DB ignore、
-Python `check_harness.py` entrypoint に関するリファレンススニペットを追加します。
-
-`flask` は対象プロジェクトが Flask アプリの場合に選びます。`unittest`
-discovery、Flask route check、instance-data ignore、Python `check_harness.py`
-entrypoint に関するリファレンススニペットを追加します。
-
-`spring` は対象プロジェクトが Spring Boot アプリの場合に選びます。Maven または
-Gradle wrapper check、Spring test command、generated build output ignore、
-local config ignore、Python `check_harness.py` entrypoint に関するリファレンス
-スニペットを追加します。
-
-`fastapi` は対象プロジェクトが FastAPI アプリの場合に選びます。pytest、mypy、
-app import/startup check、generated file ignore、Python `check_harness.py`
-entrypoint に関するリファレンススニペットを追加します。
-
-`react` は対象プロジェクトが React アプリの場合に選びます。ESLint、TypeScript
-check、test/build script、React-specific lint rule に関するリファレンス
-スニペットを追加します。
-
-`vue` は対象プロジェクトが Vue アプリの場合に選びます。ESLint、`vue-tsc`、
-test/build script、Vue-specific lint rule に関するリファレンススニペットを
-追加します。
-
-プロファイルは意図的に保守的なリファレンス資料です。自動的なプロジェクト変換
-ではありません。prompt-first adoption では、agent は
-`./harness-starter-kit/templates/profiles/<profile>/` の profile template を
-読みます。optional installer を使うと、profile snippet は target repository の
-`docs/harness/profiles/<profile>/` にコピーされるため、エージェントや maintainer
-は対象プロジェクトの既存ビルドシステムを保ちながら、必要なスニペットだけを
-merge、adapt、ignore できます。
-
-## インストールと Drift Check Coverage
-
-自動 fixture smoke test は、次の stack で harness installation を検証します。
-
-- Node.js / TypeScript
-- Next.js
-- Django
-- FastAPI
-- Flask
-- React
-- Spring Boot
-- Vue
-
-これらの fixture test は、installer が既存ファイルを保持し、期待される profile
-snippet を書き込み、generic drift check が実行可能であることを確認します。
-
-追加の end-to-end adoption check は、次の対象に対して手動で実行されています。
-
-- `node --test`、installer の再実行、TypeScript profile `check_harness.py`、
-  意図的な drift failure を使った Node.js ES module プロジェクト
-- pytest、mypy、generated drift check、FastAPI profile `check_harness.py` を
-  使った FastAPI プロジェクト
-
-FastAPI E2E coverage は virtual environment を作成し dependency をインストール
-するため、opt-in の自動テストとして提供しています。
+optional installer は、agent-driven adaptation の前に skeleton が必要な場合だけ
+使います。
 
 ```powershell
-$env:RUN_FASTAPI_E2E = "1"
-python -m unittest tests.test_fastapi_profile_e2e
+python harness-starter-kit/scripts/apply_harness.py --target . --profile generic --dry-run
 ```
 
-GitHub Actions では、`Harness Check` workflow を手動実行し、
-`run_fastapi_e2e` を有効にすると同じ dependency-installing test が実行されます。
+optional installer は `--force` なしで既存ファイルを上書きしません。Profile
+snippet はレビュー用に `docs/harness/profiles/<profile>` にコピーされます。
+Prompt-first adoption では cloned kit の
+`harness-starter-kit/templates/profiles/<profile>` を参照します。
 
-## Lifecycle Pilot Results
+## Profiles
 
-Pilot lifecycle tests は、blank repository から minimal Django と Next.js
-project への prompt-first adoption を検証しました。これらのテストでは、
-generic-first adoption、その後の stack-specific profile absorption、記入済みの
-measurement plan、実行可能な local checks を確認しました。Next.js pilot では、
-local kit clone を削除した後の cleanup と Git hygiene も確認しました。
+利用できる profile は `generic`, `python`, `typescript`, `nextjs`, `django`,
+`flask`, `fastapi`, `spring`, `react`, `vue` です。
 
-これらの pilot は adoption behavior と measurement readiness を検証するもの
-です。harness adoption が繰り返される agent mistake を減らしたことの証明では
-ありません。その効果には、後続の comparable task run が必要です。概要は
-[`docs/examples/lifecycle-pilot-results.md`](docs/examples/lifecycle-pilot-results.md)
-を参照してください。
+Profile は保守的な参考資料であり、自動変換ルールではありません。対象
+リポジトリの現在の tools と maintenance expectations に合う snippet だけを
+採用してください。Stack が後から導入された場合は
+[`docs/checklists/profile-absorption.md`](docs/checklists/profile-absorption.md)
+を使います。
 
-## 効果測定
+## ドキュメントマップ
 
-上記の自動テストは、インストール動作と実行可能な drift check を検証します。
-harness adoption が繰り返される agent mistake を減らしたことの証明では
-ありません。その効果は
-[`docs/evaluation.md`](docs/evaluation.md) のプロトコルで別途測定します。
+- Overview: [`docs/overview.md`](docs/overview.md)
+- Adoption workflow: [`docs/adoption-workflow.md`](docs/adoption-workflow.md)
+- Full adoption prompt: [`docs/prompts/apply-to-target-repo.md`](docs/prompts/apply-to-target-repo.md)
+- Component map: [`docs/component-map.md`](docs/component-map.md)
+- Validation coverage: [`docs/validation.md`](docs/validation.md)
+- Effectiveness evaluation: [`docs/evaluation.md`](docs/evaluation.md)
+- Lifecycle pilot details: [`docs/examples/lifecycle-pilot-results.md`](docs/examples/lifecycle-pilot-results.md)
 
-adoption 時には
-[`docs/templates/adoption-report.md`](docs/templates/adoption-report.md) の
-Effectiveness Measurement Plan を埋めてください。baseline がない場合は
-harnessed-only tracking として記録し、次の comparable task、primary metric、
-review window、results location を定義します。実際の before/after または
-後続の観測結果は
+## 検証と測定
+
+自動 fixture tests は、Node.js、Next.js、Django、FastAPI、Flask、React、
+Spring Boot、Vue、Python、TypeScript 系 profile の installation と runnable
+drift checks を検証します。Coverage details と opt-in E2E checks は
+[`docs/validation.md`](docs/validation.md) を参照してください。
+
+これらの tests は、harness adoption が repeated agent mistakes を減らすことを
+証明するものではありません。Comparable tasks、wrong-file edits、first-pass
+verification、human rework の測定には
+[`docs/evaluation.md`](docs/evaluation.md) と
 [`docs/templates/effectiveness-report.md`](docs/templates/effectiveness-report.md)
-に記録します。
+を使います。
 
 ## ローカルチェック
 
-starter kit のテンプレート、インストーラー、drift script を変更した後は、
-次のチェックを実行してください。
+starter-kit templates、command workflows、installer behavior、drift scripts を
+変更する前に、次の checks を実行してください。
 
 ```powershell
 python -m unittest discover -s tests
@@ -387,17 +159,10 @@ python scripts/harness_doctor.py --target .
 
 ## ライセンス
 
-このプロジェクトは [MIT License](LICENSE) の下で配布されます。
+このプロジェクトは [MIT License](LICENSE) の下で公開されています。
 
 ## 基本原則
 
-繰り返し起きるエージェントの失敗は、少なくとも一つの durable artifact に
-変換するべきです。
-
-- `AGENTS.md` のより明確な指示
-- 自動化された制約
-- test または CI check
-- decision または failure record
-- drift check
-
-これが harness engineering の中心です。
+繰り返される agent failure は、より明確な instruction、automated constraint、
+test または CI、decision/failure record、drift check の少なくとも一つの
+durable artifact に変換します。

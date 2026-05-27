@@ -125,6 +125,28 @@ class RepositoryHygieneTests(unittest.TestCase):
         self.assertIn("not reduced agent error rates", pilot_results)
         self.assertIn("docs/examples/lifecycle-pilot-results.md", readme)
 
+    def test_readmes_link_to_split_detail_docs(self) -> None:
+        validation = REPO_ROOT / "docs" / "validation.md"
+        self.assertTrue(validation.exists())
+        validation_text = validation.read_text(encoding="utf-8")
+        self.assertIn("Fixture Smoke Tests", validation_text)
+        self.assertIn("Lifecycle Pilots", validation_text)
+        self.assertIn("They do not prove", validation_text)
+
+        for filename in (
+            "README.md",
+            "README.ko.md",
+            "README.ja.md",
+            "README.zh-CN.md",
+        ):
+            with self.subTest(readme=filename):
+                text = (REPO_ROOT / filename).read_text(encoding="utf-8")
+                self.assertIn("docs/adoption-workflow.md", text)
+                self.assertIn("docs/prompts/apply-to-target-repo.md", text)
+                self.assertIn("docs/validation.md", text)
+                self.assertIn("docs/evaluation.md", text)
+                self.assertIn("/harness update", text)
+
 
 if __name__ == "__main__":
     unittest.main()
