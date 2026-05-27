@@ -26,7 +26,7 @@ jobs:
         run: python -m unittest discover -s tests
 
       - name: Compile Python scripts
-        run: python -m py_compile scripts/apply_harness.py scripts/check_docs_drift.py scripts/check_structure.py scripts/check_effectiveness_plan.py
+        run: python -m py_compile scripts/apply_harness.py scripts/check_docs_drift.py scripts/check_structure.py scripts/check_effectiveness_plan.py scripts/harness_doctor.py
 
       - name: Check document drift
         run: python scripts/check_docs_drift.py

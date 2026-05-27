@@ -61,6 +61,19 @@ class RepositoryHygieneTests(unittest.TestCase):
         self.assertIn("They do not prove", readme)
         self.assertIn("docs/evaluation.md", readme)
 
+    def test_commit_and_pr_rules_are_wired_into_agent_instructions(self) -> None:
+        root_agents = (REPO_ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        agent_template = (REPO_ROOT / "templates" / "generic" / "AGENTS.md").read_text(
+            encoding="utf-8"
+        )
+
+        for text in (root_agents, agent_template):
+            self.assertIn("## Commit And PR Rules", text)
+            self.assertIn("staged diff", text)
+            self.assertIn("checks before committing", text)
+            self.assertIn("changed files", text)
+            self.assertIn("remaining risks", text)
+
     def test_profile_reference_paths_distinguish_clone_from_installer_output(
         self,
     ) -> None:

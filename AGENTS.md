@@ -144,3 +144,19 @@ Add checks for drift:
 - Scripts should be safe by default and avoid overwriting user files.
 - Favor clear Markdown and small Python scripts over heavyweight generators.
 - Keep `examples/*-adoption-report.md` aligned with real adoption tests.
+
+## Commit And PR Rules
+
+- Keep each commit focused on one logical harness change.
+- Do not mix unrelated formatting, generated output, or broad documentation
+  rewrites into a feature or fix commit.
+- Before committing, inspect `git status` and the staged diff.
+- Do not commit local reference clones, virtual environments, dependency
+  directories, build outputs, caches, secrets, credentials, or machine-specific
+  config.
+- Run the relevant documented checks before committing. If a check cannot be
+  run, record why in the final report or PR notes.
+- Use a clear imperative commit subject that names the harness area changed,
+  such as `Add commit hygiene rules`.
+- PR descriptions should summarize changed files, checks run, assumptions,
+  remaining risks, and any manual follow-up.

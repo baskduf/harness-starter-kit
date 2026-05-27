@@ -91,6 +91,21 @@ Prefer:
 If no `docs/` file is updated for a non-trivial code change, explicitly explain
 why in the final report.
 
+## Commit And PR Rules
+
+- Follow any existing branch, commit message, and PR conventions in this
+  repository.
+- Keep each commit focused on one logical change.
+- Before committing, inspect `git status` and the staged diff.
+- Do not commit generated files, dependency directories, local environment
+  files, secrets, credentials, or the local `harness-starter-kit/` reference
+  clone unless the repository intentionally tracks it.
+- Run the relevant documented checks before committing. If a check cannot be
+  run, explain why in the final report or PR notes.
+- Use a clear commit subject that describes the change in imperative form.
+- PRs or adoption reports should summarize changed files, checks run,
+  assumptions, remaining risks, and manual follow-up.
+
 ## Forbidden Actions
 
 - Do not rewrite large parts of the project without an explicit request.
