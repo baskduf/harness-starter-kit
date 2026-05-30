@@ -25,9 +25,12 @@ conventions.
   document the manual review point.
 - Keep templates generic and conservative. Do not bake in a single product
   architecture.
-- Record fixed failed harness checks, CI failures, repeated agent mistakes, or
-  cross-environment mismatches in `docs/failures/*.md` unless the issue was
-  purely transient. If skipped, explain why in the final report.
+- Record fixed user-visible runtime failures or high-risk bug paths that should
+  not recur, including 5xx errors, crashes, security or permission bugs,
+  data-loss risks, failed CI runs, failed harness checks, repeated agent
+  mistakes, previously identified bug paths, or cross-environment mismatches in
+  `docs/failures/*.md` unless the issue was purely transient or already covered
+  by an existing failure note. If skipped, explain why in the final report.
 
 ## Command Routing
 

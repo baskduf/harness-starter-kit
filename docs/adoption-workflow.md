@@ -206,9 +206,12 @@ state management, decide whether the change belongs in `docs/domain/` as domain
 language or in `docs/decisions/` as an architectural decision. Record the choice
 or explain why no decision record was needed.
 
-If adoption fixes a failed CI run, failed harness check, repeated agent mistake,
-or cross-environment mismatch, record it under `docs/failures/*.md` unless the
-failure is purely transient. If no failure note is added, explain why in the
+If adoption fixes a user-visible runtime failure or high-risk bug path that
+should not recur, including a 5xx error, crash, security or permission bug,
+data-loss risk, failed CI run, failed harness check, repeated agent mistake,
+previously identified bug path, or cross-environment mismatch, record it under
+`docs/failures/*.md` unless the issue was purely transient or already covered by
+an existing failure note. If no failure note is added, explain why in the
 adoption report.
 
 The report should also include an effectiveness measurement plan. Use

@@ -71,10 +71,13 @@ fallback evidence before updating.
    carefully after reading them.
 8. Update `.harness/source.json` only after the updated kit source is known and
    the report can explain what was applied, skipped, or deferred.
-9. If the update fixes a failed CI run, failed harness check, repeated agent
-   mistake, or cross-environment mismatch, add a `docs/failures/*.md` record
-   unless the failure is purely transient. If no failure note is added, explain
-   why in the update report.
+9. If the update fixes a user-visible runtime failure or high-risk bug path that
+   should not recur, including a 5xx error, crash, security or permission bug,
+   data-loss risk, failed CI run, failed harness check, repeated agent mistake,
+   previously identified bug path, or cross-environment mismatch, add a
+   `docs/failures/*.md` record unless the issue was purely transient or already
+   covered by an existing failure note. If no failure note is added, explain why
+   in the update report.
 10. Run relevant local checks, such as docs drift, structure drift, effectiveness
    plan checks, project tests, linting, type checks, or `/harness doctor`.
 

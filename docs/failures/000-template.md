@@ -1,19 +1,30 @@
-# 000. Failed Approach Title
+# 000. Failure Or Failed Approach Title
 
-## Date Tried
+## Date Observed
 
 YYYY-MM-DD
 
+## Failure Type
+
+Runtime failure, high-risk bug path, failed check, failed CI run, repeated agent
+mistake, rejected approach, or cross-environment mismatch.
+
 ## Goal
 
-What problem was this approach meant to solve?
+What behavior, workflow, or safety property should have held?
 
-## What Was Tried
+## What Happened Or Was Tried
 
-Describe the implementation, library, architecture, or workflow.
+Describe the implementation, library, architecture, workflow, or user action
+that exposed the failure.
 
 ## Why It Failed
 
+- User-visible error, 5xx response, or crash
+- Security, permission, or data-loss risk
+- Failed check or CI failure
+- Repeated agent mistake
+- Cross-environment mismatch
 - Operational cost
 - Complexity
 - Performance
@@ -23,9 +34,10 @@ Describe the implementation, library, architecture, or workflow.
 
 ## Current Replacement
 
-Describe the accepted alternative.
+Describe the fix, accepted alternative, regression test, or review rule now in
+place.
 
 ## Agent Guidance
 
-Tell agents what not to retry without explicit approval.
-
+Tell agents what not to retry, which bug path to preserve, or which check to
+run before finishing similar work.

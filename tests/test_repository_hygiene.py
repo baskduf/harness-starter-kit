@@ -62,6 +62,9 @@ class RepositoryHygieneTests(unittest.TestCase):
         self.assertIn("Task outcome records location", adoption_report)
         self.assertIn("effectiveness measurement plan", agent_template)
         self.assertIn("Effectiveness Measurement Plan", adoption_prompt)
+        self.assertIn("task-outcome.yaml", adoption_prompt)
+        self.assertIn("task-outcome.yaml", adoption_workflow)
+        self.assertIn("docs/effectiveness/task-outcomes", adoption_report)
         self.assertIn("They do not prove", readme)
         self.assertIn("docs/evaluation.md", readme)
 
@@ -124,21 +127,63 @@ class RepositoryHygieneTests(unittest.TestCase):
         agent_template = (REPO_ROOT / "templates" / "generic" / "AGENTS.md").read_text(
             encoding="utf-8"
         )
+        adoption_workflow = (
+            REPO_ROOT / "docs" / "adoption-workflow.md"
+        ).read_text(encoding="utf-8")
+        adoption_prompt = (
+            REPO_ROOT / "docs" / "prompts" / "apply-to-target-repo.md"
+        ).read_text(encoding="utf-8")
         update_command = (REPO_ROOT / "commands" / "harness-update.md").read_text(
             encoding="utf-8"
         )
         adoption_report = (
             REPO_ROOT / "docs" / "templates" / "adoption-report.md"
         ).read_text(encoding="utf-8")
+        failure_template = (
+            REPO_ROOT / "docs" / "failures" / "000-template.md"
+        ).read_text(encoding="utf-8")
+        generic_failure_template = (
+            REPO_ROOT / "templates" / "generic" / "docs" / "failures" / "000-template.md"
+        ).read_text(encoding="utf-8")
 
-        for text in (root_agents, agent_template, update_command):
-            self.assertIn("failed harness check", text)
-            self.assertIn("cross-environment mismatch", text)
-            self.assertIn("docs/failures/*.md", text)
+        failure_rule_texts = (
+            root_agents,
+            agent_template,
+            adoption_workflow,
+            adoption_prompt,
+            update_command,
+        )
+        for text in failure_rule_texts:
+            normalized = " ".join(text.split())
+            self.assertIn("user-visible runtime failure", normalized)
+            self.assertIn("high-risk bug path", normalized)
+            self.assertIn("5xx", normalized)
+            self.assertIn("security or permission bug", normalized)
+            self.assertIn("data-loss risk", normalized)
+            self.assertIn("failed harness check", normalized)
+            self.assertIn("previously identified bug path", normalized)
+            self.assertIn("cross-environment mismatch", normalized)
+            self.assertIn("already covered by an existing failure note", normalized)
+            self.assertIn("docs/failures/*.md", normalized)
 
         self.assertIn("## Failure Memory", adoption_report)
+        normalized_adoption_report = " ".join(adoption_report.split())
+        self.assertIn("user-visible runtime failures", normalized_adoption_report)
+        self.assertIn("high-risk bug paths", normalized_adoption_report)
+        self.assertIn("purely transient", normalized_adoption_report)
+        self.assertIn("existing failure note", normalized_adoption_report)
         self.assertIn("Recorded:", update_command)
         self.assertIn("Skipped:", update_command)
+
+        for text in (failure_template, generic_failure_template):
+            self.assertIn("Failure Or Failed Approach Title", text)
+            self.assertIn("## Date Observed", text)
+            self.assertIn("## Failure Type", text)
+            self.assertIn("## What Happened Or Was Tried", text)
+            self.assertIn("Runtime failure", text)
+            self.assertIn("5xx response", text)
+            self.assertIn("Security, permission, or data-loss risk", text)
+            self.assertIn("regression test", text)
 
     def test_commit_and_pr_rules_are_wired_into_agent_instructions(self) -> None:
         root_agents = (REPO_ROOT / "AGENTS.md").read_text(encoding="utf-8")

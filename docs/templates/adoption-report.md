@@ -50,9 +50,11 @@ Result: TODO
 
 ## Failure Memory
 
-- Recorded: TODO: list `docs/failures/...` records added while fixing failed
-  checks, CI failures, repeated agent mistakes, or cross-environment mismatches.
-- Skipped: TODO: explain why no failure note was needed.
+- Recorded: TODO: list `docs/failures/...` records added while fixing
+  user-visible runtime failures, high-risk bug paths, failed checks, CI
+  failures, repeated agent mistakes, or cross-environment mismatches.
+- Skipped: TODO: explain why no failure note was needed, such as purely
+  transient behavior or coverage by an existing failure note.
 
 ## Documentation Updated
 

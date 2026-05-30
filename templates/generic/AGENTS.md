@@ -74,9 +74,12 @@ Add or update durable docs when behavior, architecture, commands, conventions,
 or known failures change. If no `docs/` file is updated for a non-trivial code
 change, explain why in the final report.
 
-If you fix a failed CI run, failed harness check, repeated agent mistake, or
-cross-environment mismatch, add a `docs/failures/*.md` record unless the issue
-was purely transient. If skipped, explain why in the final report.
+If you fix a user-visible runtime failure or high-risk bug path that should not
+recur, including a 5xx error, crash, security or permission bug, data-loss risk,
+failed CI run, failed harness check, repeated agent mistake, previously
+identified bug path, or cross-environment mismatch, add a `docs/failures/*.md`
+record unless the issue was purely transient or already covered by an existing
+failure note. If skipped, explain why in the final report.
 
 When harness rules, checks, CI, architecture boundaries, or agent-facing docs
 change, update the effectiveness measurement plan in the adoption report or the

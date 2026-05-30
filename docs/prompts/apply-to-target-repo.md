@@ -46,6 +46,10 @@ Rules:
 - Preserve existing architecture, tools, naming, package managers, and test
   commands.
 - Add the smallest useful harness rather than a large generic framework.
+- When you find a harness gap, use
+  ./harness-starter-kit/docs/theory/harness-engineering.md to decide whether
+  the next durable artifact should be instructions, constraints, feedback,
+  memory, evaluation, or governance. Do not add every artifact by default.
 - Prefer updating existing docs/configs over duplicating them.
 - Do not overwrite existing files without explaining why.
 - Do not delete existing files unless I explicitly ask.
@@ -87,9 +91,15 @@ Expected work:
 - Fill the Effectiveness Measurement Plan in the adoption report. If baseline
   data does not exist, define the next comparable tasks, primary metric, review
   window, and results location instead of leaving TODOs.
-- If adoption fixes a failed check, CI failure, repeated agent mistake, or
-  cross-environment mismatch, add a `docs/failures/*.md` record unless the
-  failure is purely transient.
+- For individual task outcome records, copy
+  ./harness-starter-kit/docs/templates/task-outcome.yaml and store filled
+  records under docs/effectiveness/task-outcomes/.
+- If adoption fixes a user-visible runtime failure or high-risk bug path that
+  should not recur, including a 5xx error, crash, security or permission bug,
+  data-loss risk, failed CI run, failed harness check, repeated agent mistake,
+  previously identified bug path, or cross-environment mismatch, add a
+  `docs/failures/*.md` record unless the issue was purely transient or already
+  covered by an existing failure note.
 - If you save the adoption report as a file, run
   `scripts/check_effectiveness_plan.py --require-report` when that script is
   present.
@@ -119,6 +129,7 @@ Finish by reporting:
 
 Use ./harness-starter-kit/docs/templates/adoption-report.md as the report shape
 if present. Use ./harness-starter-kit/docs/evaluation.md for the measurement
-protocol and ./harness-starter-kit/docs/templates/effectiveness-report.md when
-recording actual before/after results.
+protocol, ./harness-starter-kit/docs/templates/task-outcome.yaml for individual
+task records, and ./harness-starter-kit/docs/templates/effectiveness-report.md
+when recording aggregate before/after results.
 ```
