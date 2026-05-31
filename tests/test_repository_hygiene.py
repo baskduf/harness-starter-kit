@@ -281,6 +281,15 @@ class RepositoryHygieneTests(unittest.TestCase):
             "durable memory",
             "validation",
             "checks",
+            "multi-agent or subagent tools are available",
+            "available and permitted by the active runtime and tool instructions",
+            "read-only reviewer subagent",
+            "Report findings only. Do not modify files.",
+            "tool unavailable",
+            "tool present but not permitted",
+            "subagent call failed",
+            "single-agent reviewer perspective",
+            "fallback reason",
         ):
             self.assertIn(phrase, normalized_command)
         self.assertIn("Do not modify files", review_command)
@@ -288,6 +297,7 @@ class RepositoryHygieneTests(unittest.TestCase):
         self.assertIn("pre-commit", review_command)
         self.assertIn("CI adapters", review_command)
         self.assertIn("installer automation", review_command)
+        self.assertIn("runtime-specific subagent integration", review_command)
         self.assertIn("docs/checklists/harness-review.md", review_command)
         self.assertIn("current change set", review_command)
         self.assertIn("monthly or repeated mistake review", normalized_command)
@@ -318,7 +328,15 @@ class RepositoryHygieneTests(unittest.TestCase):
             "## Recommended Follow-Up",
         ):
             self.assertIn(section, template_text)
+        self.assertIn("Reviewer mode: TODO: subagent used | single-agent fallback", template_text)
+        self.assertIn("Fallback reason: TODO: reason or none", template_text)
         self.assertIn("does not apply fixes", template_text)
+
+        example_text = review_example.read_text(encoding="utf-8")
+        self.assertIn("Reviewer mode: subagent used", example_text)
+        self.assertIn("Fallback reason: none", example_text)
+        self.assertIn("Reviewer mode: single-agent fallback", example_text)
+        self.assertIn("tool present but not permitted", example_text)
 
     def test_profile_reference_paths_distinguish_clone_from_installer_output(
         self,

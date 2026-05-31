@@ -5,8 +5,8 @@
 - Branch/status: TODO
 - Changed files reviewed: TODO
 - Review scope: TODO: current diff, staged diff, PR diff, or described change
-- Reviewer perspective: TODO: direct review, separate reviewer perspective, or
-  subagent when available
+- Reviewer mode: TODO: subagent used | single-agent fallback
+- Fallback reason: TODO: reason or none
 
 ## Findings
 

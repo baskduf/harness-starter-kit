@@ -11,6 +11,8 @@ Reviewed Changes:
 - Changed files reviewed: AGENTS.md, docs/adoption-workflow.md,
   scripts/check_structure.py, templates/generic/AGENTS.md
 - Review scope: current diff
+- Reviewer mode: subagent used
+- Fallback reason: none
 
 Findings:
 - P1: AGENTS.md now says agents must run a new architecture check, but the check
@@ -49,4 +51,46 @@ Recommended Follow-Up:
 2. Add fixture coverage for the new structure check before documenting it as a
    required validation command.
 3. Update README.md or AGENTS.md so future agents know when to run the check.
+```
+
+## Single-Agent Fallback Example
+
+```text
+Harness Review Report
+
+Reviewed Changes:
+- Branch/status: docs/harness-review-fallback with unstaged command-doc changes
+- Changed files reviewed: commands/harness-review.md,
+  docs/templates/harness-review-report.md
+- Review scope: current diff
+- Reviewer mode: single-agent fallback
+- Fallback reason: tool present but not permitted by active runtime/tool
+  instructions
+
+Findings:
+- none
+
+Missing Checks:
+- Run `python -m unittest tests.test_repository_hygiene` after changing the
+  command contract.
+
+Durable Memory Assessment:
+- Decision records: skipped; this refines command behavior without choosing a
+  new architecture or integration boundary.
+- Failure records: skipped; no user-visible runtime failure, failed CI run,
+  failed harness check, repeated agent mistake, or cross-environment mismatch
+  was fixed.
+- Conventions/domain/effectiveness docs: skipped; no durable convention or
+  effectiveness measurement changed.
+
+Overreach Risk:
+- none
+
+Manual Decisions Needed:
+- none
+
+Recommended Follow-Up:
+1. Re-run the full documented validation suite before release.
+2. Keep the fallback reason visible in any saved review report.
+3. Revisit the command after real target-repository review usage.
 ```

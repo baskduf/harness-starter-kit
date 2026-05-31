@@ -13,10 +13,13 @@ source of truth, avoids unnecessary automation, keeps templates conservative,
 adds enforceable checks only where practical, updates durable memory when
 needed, and runs the right validation before completion.
 
-Use a separate reviewer perspective or subagent when the environment supports
-it, but do not depend on any specific agent runtime. The review should report
-findings, questions, missing checks, overreach, and follow-up recommendations;
-it should not continue implementation.
+At the start of every review, check whether the current environment exposes a
+multi-agent or subagent review tool. If one is available and permitted by the
+active runtime and tool instructions, invoke a read-only reviewer subagent
+before writing the final review. If no such tool is available, the tool is
+present but not permitted, the tool is blocked, or the subagent call fails,
+continue with a single-agent reviewer perspective and state the fallback reason
+in the report. Do not depend on any specific agent runtime.
 
 ## Scope
 
@@ -30,18 +33,34 @@ It is also different from the maintenance checklist in
 mistake review; this command is for the current change set.
 
 It must not implement runtime hooks, policy-driven enforcement, pre-commit
-hooks, CI adapters, subagent execution, or broader installer automation.
+hooks, CI adapters, runtime-specific subagent integration, or broader installer
+automation.
 
 ## Procedure
 
 1. Treat the current working directory as the target repository root.
-2. Inspect repository state and the change set:
+2. Check whether multi-agent or subagent tools are available in the current
+   environment.
+   - If a subagent tool is available and permitted by the active runtime and
+     tool instructions, call a read-only reviewer subagent before producing the
+     final report.
+   - Limit the subagent prompt to: "Read the current diff, staged diff,
+     AGENTS.md, docs/decisions, docs/failures, docs/conventions, and
+     docs/domain. Report findings only. Do not modify files."
+   - If no subagent tool is available, the tool is present but not permitted,
+     the tool is blocked, or the subagent call fails, use a single-agent
+     reviewer perspective and record the fallback reason in the report.
+   - Use a concrete fallback reason such as `tool unavailable`,
+     `tool present but not permitted`, `tool blocked`, or `subagent call
+     failed`.
+   - Do not skip this availability check silently.
+3. Inspect repository state and the change set:
    - `git status --short --branch`
    - `git diff --stat`
    - `git diff --check`
    - `git diff --cached --stat` and `git diff --cached --check` when staged
      changes exist
-3. Review changed files and nearby harness context:
+4. Review changed files and nearby harness context:
    - changed `AGENTS.md`, `CLAUDE.md`, README files, contribution docs, and CI
      configs
    - changed `commands/`, `docs/`, `templates/`, `scripts/`, package manifests,
@@ -49,26 +68,26 @@ hooks, CI adapters, subagent execution, or broader installer automation.
    - `docs/decisions/`, `docs/failures/`, `docs/conventions/`, and
      `docs/domain/` when the change affects architecture, behavior, workflow,
      integration boundaries, or repeated failure paths
-4. Challenge source-of-truth preservation:
+5. Challenge source-of-truth preservation:
    - Does the change preserve the target repository's architecture, tools,
      package manager, docs, commands, and conventions?
    - Does it avoid copying starter-kit templates blindly?
    - Does it keep profile snippets as reference material instead of mandatory
      transformations?
-5. Challenge overreach and automation:
+6. Challenge overreach and automation:
    - Does the change add package scripts, pre-commit hooks, CI wiring, runtime
      hooks, dependency constraints, or policy enforcement without target
      evidence and maintainer approval?
    - Does it make the installer more automatic or more willing to overwrite
      target files?
    - Are templates still generic and conservative?
-6. Challenge checks and validation:
+7. Challenge checks and validation:
    - Are important rules enforceable through lint, tests, type checks, import
      rules, CI, or drift checks where practical?
    - If automation is not practical, is the manual review point documented?
    - Were the right local checks run for the files changed?
    - Are missing checks or unverified assumptions named clearly?
-7. Challenge durable memory:
+8. Challenge durable memory:
    - Does the change require a decision record, failure note, convention update,
      domain note, adoption report update, or effectiveness measurement update?
    - If no durable memory was added, is that justified?
@@ -76,12 +95,12 @@ hooks, CI adapters, subagent execution, or broader installer automation.
      failed CI run, failed harness check, repeated agent mistake, or
      cross-environment mismatch, was `docs/failures/*.md` updated or explicitly
      skipped with a reason?
-8. Check for stale or duplicated guidance:
+9. Check for stale or duplicated guidance:
    - Are new command docs, templates, examples, README links, component maps, and
      tests aligned?
    - Does the change duplicate existing guidance instead of updating the
      authoritative location?
-9. Produce the required report format. Do not apply fixes unless the user asks
+10. Produce the required report format. Do not apply fixes unless the user asks
    for a follow-up implementation after reviewing the report.
 
 ## Required Report Format
@@ -93,6 +112,8 @@ Reviewed Changes:
 - Branch/status: <summary>
 - Changed files reviewed: <files>
 - Review scope: <current diff, staged diff, PR diff, or described change>
+- Reviewer mode: <subagent used | single-agent fallback>
+- Fallback reason: <reason or none>
 
 Findings:
 - <severity>: <finding with file/path evidence, or "none">
@@ -124,9 +145,11 @@ Recommended Follow-Up:
   to apply fixes after seeing the review.
 - Do not stage, commit, format, delete, archive, move, or rename files while
   reviewing.
-- Do not add runtime hooks, subagent execution, policy enforcement, pre-commit
-  hooks, CI adapters, package scripts, dependency constraints, or broader
-  installer automation as part of the review.
+- Do not add runtime hooks, runtime-specific subagent integration, policy
+  enforcement, pre-commit hooks, CI adapters, package scripts, dependency
+  constraints, or broader installer automation as part of the review.
+- Do not silently skip the multi-agent or subagent availability check. If the
+  review falls back to a single-agent perspective, report why.
 - Do not treat a clean review as proof of agent effectiveness. It is a
   change-set diagnostic, not an outcome measurement.
 - If you recommend a stronger check or policy, present it as follow-up or a
