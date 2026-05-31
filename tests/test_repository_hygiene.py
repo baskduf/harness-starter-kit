@@ -247,6 +247,79 @@ class RepositoryHygieneTests(unittest.TestCase):
             self.assertIn("/harness refresh", text)
             self.assertIn("commands/harness-refresh.md", text)
 
+    def test_harness_review_command_is_documented_and_linked(self) -> None:
+        review_command = (
+            REPO_ROOT / "commands" / "harness-review.md"
+        ).read_text(encoding="utf-8")
+        review_template = (
+            REPO_ROOT / "docs" / "templates" / "harness-review-report.md"
+        )
+        review_example = REPO_ROOT / "docs" / "examples" / "harness-review-report.md"
+        root_agents = (REPO_ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
+        component_map = (REPO_ROOT / "docs" / "component-map.md").read_text(
+            encoding="utf-8"
+        )
+        adoption_prompt = (
+            REPO_ROOT / "docs" / "prompts" / "apply-to-target-repo.md"
+        ).read_text(encoding="utf-8")
+        maintenance_checklist = (
+            REPO_ROOT / "docs" / "checklists" / "harness-review.md"
+        ).read_text(encoding="utf-8")
+
+        self.assertTrue(review_template.exists())
+        self.assertTrue(review_example.exists())
+
+        normalized_command = " ".join(review_command.split())
+        for phrase in (
+            "diagnostic by default",
+            "explicitly asks",
+            "opposing harness-engineering perspective",
+            "source of truth",
+            "unnecessary automation",
+            "templates conservative",
+            "durable memory",
+            "validation",
+            "checks",
+        ):
+            self.assertIn(phrase, normalized_command)
+        self.assertIn("Do not modify files", review_command)
+        self.assertIn("runtime hooks", review_command)
+        self.assertIn("pre-commit", review_command)
+        self.assertIn("CI adapters", review_command)
+        self.assertIn("installer automation", review_command)
+        self.assertIn("docs/checklists/harness-review.md", review_command)
+        self.assertIn("current change set", review_command)
+        self.assertIn("monthly or repeated mistake review", normalized_command)
+
+        self.assertIn("Harness Maintenance Review Checklist", maintenance_checklist)
+        self.assertIn("/harness review", maintenance_checklist)
+        self.assertIn("current change set", maintenance_checklist)
+        self.assertIn("periodic harness maintenance", maintenance_checklist)
+
+        for text in (root_agents, readme, component_map, adoption_prompt):
+            self.assertIn("/harness review", text)
+            self.assertIn("commands/harness-review.md", text)
+
+        for filename in ("README.ko.md", "README.ja.md", "README.zh-CN.md"):
+            with self.subTest(readme=filename):
+                localized = (REPO_ROOT / filename).read_text(encoding="utf-8")
+                self.assertIn("### `/harness review`", localized)
+                self.assertIn("commands/harness-review.md", localized)
+
+        template_text = review_template.read_text(encoding="utf-8")
+        for section in (
+            "## Reviewed Changes",
+            "## Findings",
+            "## Missing Checks",
+            "## Durable Memory Assessment",
+            "## Overreach Risk",
+            "## Manual Decisions Needed",
+            "## Recommended Follow-Up",
+        ):
+            self.assertIn(section, template_text)
+        self.assertIn("does not apply fixes", template_text)
+
     def test_profile_reference_paths_distinguish_clone_from_installer_output(
         self,
     ) -> None:
@@ -302,6 +375,8 @@ class RepositoryHygieneTests(unittest.TestCase):
                 self.assertIn("docs/templates/task-outcome.yaml", text)
                 self.assertIn("/harness update", text)
                 self.assertIn("/harness refresh", text)
+                self.assertIn("/harness review", text)
+                self.assertIn("commands/harness-review.md", text)
 
 
 if __name__ == "__main__":

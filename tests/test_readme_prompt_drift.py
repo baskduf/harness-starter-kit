@@ -59,6 +59,8 @@ class ReadmePromptDriftTests(unittest.TestCase):
         expected_blocks = agent_prompt_blocks(REPO_ROOT / "README.md")
         self.assertGreaterEqual(len(expected_blocks), 1)
         expected = expected_blocks[0]
+        self.assertIn("/harness review", expected)
+        self.assertIn("commands/harness-review.md", expected)
 
         for filename in LOCALIZED_READMES:
             with self.subTest(readme=filename):
