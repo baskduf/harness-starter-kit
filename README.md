@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="harness-starter-kit agent session demo" src="site/assets/banner.gif" />
+  <img width="2172" height="724" alt="06d3c515-5fd8-4942-95e0-50ae2a2c5456" src="https://github.com/user-attachments/assets/4ba0bcf8-7500-49bd-a0fd-b8666807df39" />
 </p>
 
 <p align="center">
