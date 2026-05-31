@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import html
 import re
 import unittest
 from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SITE_APP = REPO_ROOT / "site" / "app.js"
+SITE_INDEX = REPO_ROOT / "site" / "index.html"
 LOCALIZED_READMES = (
     "README.ko.md",
     "README.ja.md",
@@ -30,11 +31,15 @@ def agent_prompt_blocks(readme: Path) -> list[str]:
 
 
 def site_adoption_prompt() -> str:
-    text = SITE_APP.read_text(encoding="utf-8")
-    match = re.search(r"const adoptionPrompt = `(.*?)`;", text, flags=re.DOTALL)
+    text = SITE_INDEX.read_text(encoding="utf-8")
+    match = re.search(
+        r'<pre id="prompt-text"><code>(.*?)</code></pre>',
+        text,
+        flags=re.DOTALL,
+    )
     if match is None:
-        raise AssertionError("site/app.js adoptionPrompt template literal not found")
-    return match.group(1)
+        raise AssertionError("site/index.html prompt-text block not found")
+    return html.unescape(match.group(1))
 
 
 class ReadmePromptDriftTests(unittest.TestCase):
