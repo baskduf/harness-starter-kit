@@ -90,6 +90,11 @@ Expected result:
 
 ## コマンド
 
+以下の `/harness ...` 名は、デフォルトでは組み込み editor command ではなく
+prompt convention です。coding agent chat に直接入力または貼り付けてください。
+Cursor などの editor では、対応する custom slash command を別途追加しない限り
+command palette には表示されません。
+
 ### `/harness doctor`
 
 Harness Doctor は、リポジトリが AI coding agent と安定して協働するための

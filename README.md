@@ -116,6 +116,11 @@ for the model.
 
 ## Commands
 
+The `/harness ...` names below are prompt conventions by default, not built-in
+editor commands. Type or paste them into your coding agent chat. In editors such
+as Cursor, they will not appear in the command palette unless you separately add
+matching custom slash commands.
+
 ### `/harness doctor`
 
 Run Harness Doctor to evaluate baseline repository evidence for reliable AI

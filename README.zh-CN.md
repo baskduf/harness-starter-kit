@@ -90,6 +90,11 @@ Expected result:
 
 ## 命令
 
+下面的 `/harness ...` 名称默认是 prompt convention，不是内置 editor
+command。请把它们输入或粘贴到 coding agent chat 中。在 Cursor 等 editor 里，
+除非另外添加对应的 custom slash command，否则它们不会出现在 command palette
+中。
+
 ### `/harness doctor`
 
 Harness Doctor 用于评估仓库与 AI coding agent 稳定协作所需的 baseline

@@ -222,6 +222,22 @@ class RepositoryHygieneTests(unittest.TestCase):
             self.assertIn("/harness update", text)
             self.assertIn("commands/harness-update.md", text)
 
+    def test_readme_clarifies_harness_commands_are_prompt_conventions(self) -> None:
+        for filename in (
+            "README.md",
+            "README.ko.md",
+            "README.ja.md",
+            "README.zh-CN.md",
+        ):
+            with self.subTest(readme=filename):
+                readme = (REPO_ROOT / filename).read_text(encoding="utf-8")
+                normalized = " ".join(readme.split())
+
+                self.assertIn("/harness ...", normalized)
+                self.assertIn("prompt convention", normalized)
+                self.assertIn("editor command", normalized)
+                self.assertIn("command palette", normalized)
+
     def test_harness_refresh_command_is_documented_and_linked(self) -> None:
         refresh_command = (
             REPO_ROOT / "commands" / "harness-refresh.md"

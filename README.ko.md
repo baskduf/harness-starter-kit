@@ -90,6 +90,11 @@ Expected result:
 
 ## 명령
 
+아래 `/harness ...` 이름은 기본적으로 내장 editor command가 아니라 prompt
+convention입니다. 코딩 에이전트 chat에 직접 입력하거나 붙여넣으세요. Cursor
+같은 editor에서는 matching custom slash command를 별도로 추가하지 않는 한
+command palette에 표시되지 않습니다.
+
 ### `/harness doctor`
 
 Harness Doctor는 저장소가 AI 코딩 에이전트와 안정적으로 협업하기 위한 baseline
