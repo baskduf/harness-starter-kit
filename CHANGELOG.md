@@ -2,6 +2,30 @@
 
 Notable project changes should be recorded here before release tags are cut.
 
+## v0.1.2 - 2026-05-31
+
+Governance release for change-set review. This release adds a diagnostic
+`/harness review` workflow so maintainers can challenge current changes before
+completion without adding runtime hooks, policy enforcement, CI adapters, or
+more automatic installer behavior.
+
+### Added
+
+- `/harness review` command workflow for opposing harness-engineering review of
+  the current change set.
+- Harness review report template and example report.
+- Quick Start, full adoption prompt, localized README, static site, and
+  component-map wiring for `/harness review`.
+- Regression tests that keep `/harness review` command routing, localized docs,
+  report-template sections, and prompt drift covered.
+
+### Changed
+
+- Clarify that the existing harness review checklist is a periodic maintenance
+  checklist, distinct from the `/harness review` change-set command.
+- Update the roadmap from adding `/harness review` to refining it through real
+  target-repository use.
+
 ## v0.1.1 - 2026-05-30
 
 Stabilization release for the initial harness workflow. This release strengthens
